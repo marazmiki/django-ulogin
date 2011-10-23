@@ -1,0 +1,11 @@
+include AUTHORS
+include LICENSE
+include README.rst
+include CHANGELOG.txt
+include setup.py
+recursive-include django_ulogin/ *
+recursive-include django_ulogin/locale *
+recursive-include django_ulogin/templates *
+recursive-include django_ulogin/static *
+recursive-include docs *
+recursive-exclude * *.pyc

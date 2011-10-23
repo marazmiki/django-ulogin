@@ -1,0 +1,12 @@
+{% spaceless %}
+    {% load i18n %}
+
+    {% if DISPLAY == 'BUTTON' %}
+        <a href="#" id="uLogin"><img src="http://ulogin.ru/img/button.png" width=187 height=30 alt="{% trans "Multipass" %}"/></a>
+        <script src="{{ WIDGET_URL }}?display=window&amp;fields={{ FIELDS }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></script>
+
+    {% else %}
+        <div id="uLogin"></div>
+        <script src="{{ WIDGET_URL }}?display={{ DISPLAY }}&amp;fields={{ FIELDS }}&amp;optional={{ OPTIONAL }}&amp;providers={{ PROVIDERS }}&amp;hidden={{ HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></script>
+    {% endif %}
+{% endspaceless %}

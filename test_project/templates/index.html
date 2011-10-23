@@ -1,0 +1,16 @@
+{% load ulogin_tags %}<!DOCTYPE html>
+<html>
+<head>
+    <title>ULogin test</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="containter">
+        {% if request.user.is_authenticated %}
+            Hi, {{ request.user }}. <a href="{% url logout %}">Logout</a>
+        {% else %}
+            {% ulogin_widget %}
+        {% endif %}
+    </div>
+</body>
+</html>

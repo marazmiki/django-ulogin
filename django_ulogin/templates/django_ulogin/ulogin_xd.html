@@ -1,0 +1,1 @@
+<html><body><script>a=new Object();b=location.search.substr(1).split('&');for(c=0;c<b.length;c++){d=b[c].split('=');a[d[0]]=d[1];}parent.uLogin.hideAll();parent[a['callback']](a['token']);if(parent.uLogin.query['display']!='window')history.back();</script></body></html>
