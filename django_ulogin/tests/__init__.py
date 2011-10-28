@@ -165,7 +165,7 @@ class Test(test.TestCase):
        
     def test_user_not_authenticated_ulogin_exists(self):
         """
-        Tests received from view data when user is anot uthenticated and
+        Tests received from view data when user is not authenticated and
         ulogin exists
         """
         def handler(**kwargs):
