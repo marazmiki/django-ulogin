@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django_ulogin import views
 from django_ulogin.models import ULoginUser
+from django_ulogin.signals import assign
 
 def response(update=None):
     """
@@ -50,7 +51,6 @@ class Test(test.TestCase):
         self.assertEquals(200, resp.status_code)
         self.assertTrue('json' in resp.context)
         self.assertTrue('error' in resp.context['json'])
-        
 
     def test_405_if_not_post(self):
         """
@@ -126,3 +126,77 @@ class Test(test.TestCase):
         self.assertEquals(200, resp.status_code)
         self.assertTrue( resp.context['request'].user.is_authenticated() )
 
+
+    def test_user_authenticated_ulogin_not_exists(self):
+        """
+        Tests received from view data when user is authenticated but
+        ulogin not exists
+        """
+        username, password = 'demo', 'demo'
+        user = User.objects.create_user(username=username,
+                                   password=password,
+                                   email='demo@demo.de')
+        def handler(**kwargs):
+            self.assertFalse( kwargs['registered'] )
+
+        assign.connect(receiver=handler, sender=ULoginUser,
+                       dispatch_uid='test')
+
+        self.client.login(username=username, password=password)
+        self.client.post(self.url, data={'token': '31337'})
+
+    def test_user_authenticated_ulogin_exists(self):
+        """
+        Tests received from view data when user is authenticated and
+        ulogin exists too
+        """
+        username, password = 'demo', 'demo'
+        user = User.objects.create_user(username=username,
+                                   password=password,
+                                   email='demo@demo.de')
+        def handler(**kwargs):
+            self.assertFalse( kwargs['registered'] )
+
+        assign.connect(receiver=handler, sender=ULoginUser,
+                       dispatch_uid='test')
+
+        self.client.login(username=username, password=password)
+        self.client.post(self.url, data={'token': '31337'})
+       
+    def test_user_not_authenticated_ulogin_exists(self):
+        """
+        Tests received from view data when user is anot uthenticated and
+        ulogin exists
+        """
+        def handler(**kwargs):
+            ''
+            self.assertFalse( kwargs['registered'] )
+
+        username, password = 'demo', 'demo'
+        user = User.objects.create_user(username=username,
+                                   password=password,
+                                   email='demo@demo.de')
+        ULoginUser.objects.create(user=user, network=response()['network'],
+                                         uid=response()['uid'])
+
+        assign.connect(receiver=handler, sender=ULoginUser,
+                       dispatch_uid='test')
+        self.client.post(self.url, data={'token': '31337'})
+
+    def test_user_not_authenticated_ulogin_not_exists(self):
+        """
+        Tests received from view data when user is not authenticated and
+        ulogin not exists 
+        """
+        username, password = 'demo', 'demo'
+        user = User.objects.create_user(username=username,
+                                   password=password,
+                                   email='demo@demo.de')
+
+        def handler(**kwargs):
+            ''
+            self.assertTrue( kwargs['registered'] )
+
+        assign.connect(receiver=handler, sender=ULoginUser,
+                       dispatch_uid='test')
+        self.client.post(self.url, data={'token': '31337'})
