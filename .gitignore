@@ -1,4 +1,6 @@
 .env/
+.hg/
+.hgignore
 *.swp
 *.pyc
 dist/

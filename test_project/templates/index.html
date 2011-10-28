@@ -7,7 +7,8 @@
 <body>
     <div class="containter">
         {% if request.user.is_authenticated %}
-            Hi, {{ request.user }}. <a href="{% url logout %}">Logout</a>
+            <p>Hi, {{ request.user.first_name }} {{request.user.last_name }}!</p>
+            <p><a href="{% url logout %}">Logout</a></p>
         {% else %}
             {% ulogin_widget %}
         {% endif %}
