@@ -37,6 +37,9 @@ def postback(request):
 
     response = ulogin_response(request.POST['token'], request.get_host())
 
+    if 'error' in response:
+        return render(request, 'django_ulogin/error.html', {'json': response})
+
     if request.user.is_authenticated():
         user = request.user
         registered = False

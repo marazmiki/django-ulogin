@@ -39,6 +39,19 @@ class Test(test.TestCase):
         self.url = reverse('ulogin_postback')
         views.ulogin_response = lambda token, host: response(None)
 
+    def test_has_error(self):
+        """
+        Tests if in response there is key 'error', in context it there is
+        too
+        """
+        views.ulogin_response = lambda token, host: response({'error': 'Token expired'})
+        resp = self.client.post(self.url, data={'token': '31337'})
+
+        self.assertEquals(200, resp.status_code)
+        self.assertTrue('json' in resp.context)
+        self.assertTrue('error' in resp.context['json'])
+        
+
     def test_405_if_not_post(self):
         """
         Tests if a request is made with a non-POST method, the response
@@ -54,7 +67,7 @@ class Test(test.TestCase):
         resp = self.client.post(self.url)
         self.assertEquals(400, resp.status_code)
 
-    def test_200_if_post_and_token_given(self):
+    def test_302_if_post_and_token_given(self):
         """
         Test if input date is correct, redirect will be appeared
         """
