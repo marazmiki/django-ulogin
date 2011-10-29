@@ -137,7 +137,7 @@ class Test(test.TestCase):
                                    password=password,
                                    email='demo@demo.de')
         def handler(**kwargs):
-            self.assertFalse( kwargs['registered'] )
+            self.assertTrue( kwargs['registered'] )
 
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
@@ -160,6 +160,8 @@ class Test(test.TestCase):
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
 
+        ULoginUser.objects.create(user=user, network=response()['network'],
+                                         uid=response()['uid'])
         self.client.login(username=username, password=password)
         self.client.post(self.url, data={'token': '31337'})
        

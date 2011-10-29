@@ -50,6 +50,7 @@ def postback(request):
                                                uid      = response['uid'],
                                                identity = response['identity'],
                                                user     = user)
+            registered = True
     # Not authenticated
     else:
         try:

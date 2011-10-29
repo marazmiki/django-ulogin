@@ -58,7 +58,6 @@ def catch_ulogin_signal(*args, **kwargs):
 
         data = {'ulogin': ulogin}
 
-        print json
         for fld in ['sex', 'city', 'country']:
             if fld not in json:
                 return
