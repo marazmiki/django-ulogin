@@ -9,3 +9,4 @@ recursive-include django_ulogin/templates *
 recursive-include django_ulogin/static *
 recursive-include docs *
 recursive-exclude * *.pyc
+recursive-exclude test_project *

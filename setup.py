@@ -30,7 +30,7 @@ setup(
         'Django>=1.2.5',
         'requests',
     ],
-    packages=find_packages(),
+    packages=find_packages(exclude=['test_project', 'test_project.*']),
     include_package_data=True,
     zip_safe = False
 )

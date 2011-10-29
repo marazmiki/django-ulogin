@@ -1,0 +1,147 @@
+django-ulogin
+-------------
+Django-ulogin является приложением для социальной аутентификации пользователей с помощью интернет-сервиса `ULOGIN.RU <http://ulogin.ru>`_
+
+Требования
+-----------
+- Python 2.6+
+- Django Framework v 1.2.5+
+- requests
+
+Лицензия
+--------
+Распространяется по лицензии MIT
+
+
+Установка
+----------
+
+1. Для установки ``django-ulogin`` в текущее окружение можно воспользоваться утилитой ``pip``.
+
+ ::
+
+    pip install django-ulogin
+
+2. Откройте ``settings.py`` и добавьте в ``INSTALLED_APPS`` приложение ``django_ulogin``
+
+ ::
+
+    INSTALLED_APPS += ('django_ulogin', ) 
+
+3. Откройте urls.py и добавьте схему URL:
+
+ ::
+
+    urlpatterns += patterns('',
+        url(r'^ulogin/', include('django_ulogin.urls')),
+    )
+
+4. Синхронизируйте базу данных
+
+ ::
+
+    ./manage.py syncdb
+
+
+Использование
+-------------
+Для использования приложения достаточно в любом месте шаблона вставить подключение шаблонной библиотеки ``ulogin_tags`` и вызов тега ``ulogin_widget``.
+
+::
+
+    {% load ulogin_tags %}
+    {% ulogin_widget }    
+
+
+На месте тега ``ulogin_widget`` при рендеринге появится код интеграции Вашего сайта  ULOGIN.
+
+Тонкая настройка
+----------------
+По умолчанию ``django_ulogin`` требует от сервиса только одно обязательное поле - ``email``. Вы можете указать для проекта список как необходимых полей (определив в ``settings`` список ``ULOGIN_FIELDS``), так и опциональных (``ULOGIN_OPTIONAL``):
+
+::
+
+    # Поля first_name и last_name обязательны
+    ULOGIN_FIELDS = ['first_name', 'last_name']
+
+    #  Необязательные поля: пол, URL аватара, дата рождения
+    ULOGIN_OPTIONAL = ['sex', 'photo', 'bdate'] 
+
+Список всех полей, которые сообщает ULOGIN:
+
+- first_name
+- last_name
+- email
+- nickname
+- bdate *(дата рождения, передаётся в формате dd.mm.yyyy)*
+- sex *(пол: 1 означает женский, 2 - мужской)*        
+- photo *(аватар, размер 100х100 пикселей)*    
+- photo_big  
+- city
+- country
+
+Внешний вид виджета определяется параметром ``ULOGIN_DISPLAY``. Доступно три варианта:
+
+- panel
+- small *(по умолчанию)*
+- button
+
+Список используемых провайдеров определяется директивой ``ULOGIN_PROVIDERS``. По умолчанию включены:
+
+- vkontakte
+- facebook
+- twitter
+- google
+- livejournal
+
+Дополнительные провайдеры, которые будут показаны внутри выпадающего меню, определяются в директиве ``ULOGIN_HIDDEN``. По умолчанию:
+- yandex
+- odnoklassniki
+- mailru
+- openid
+
+Полный список поддерживаемых провайдеров можно уточнить на сайте http://ulogin.ru
+
+Если при входе нужно выполнить какую-то JavaScript-функцию, укажите её в виде строки в переменной ``ULOGIN_CALLBACK``.
+
+Сигналы
+-------
+При аутентификации пользователя создаётся новый Django-пользователь, ``username`` которого заполняется uuid4-хешем. Однако при создании новой аутентификации срабатывает сигнал ``django_ulogin.signals.assign``, в котором передаётся объект ``request``, пользователь Django, аутентификация и флаг того, была ли создана запись.
+
+Чтобы сделать имя поля дружественным пользователю, достаточно создать объект, подписанный на сигннал ``django_ulogin.signals.assign``:
+
+::
+
+    def catch_ulogin_signal(*args, **kwargs):
+        """
+        Обновляет модель пользователя: исправляет username, имя и фамилию на 
+        полученные от провайдера.
+
+        В реальной жизни следует иметь в виду, что username должен быть уникальным,
+        а в социальной сети может быть много "тёзок" и, как следствие,
+        возможно нарушение уникальности.
+
+        """
+        user   = kwargs['user']
+        json   = kwargs['ulogin_data']
+
+        if kwargs['registered']:
+            user.username = json['username'] # В при
+            user.first_name = json['first_name']
+            user.last_name = json['last_name']
+            user.email = json['email']
+            user.save()
+
+    from django_ulogin.models import ULoginUser
+
+    assign.connect(receiver = catch_ulogin_signal,
+                   sender   = ULoginUser,
+                   dispatch_uid = 'customize.models')
+
+
+Можно изучить тестовый проект, в котором реализована функция сохранения данных, полученных от ULogin:
+
+- https://github.com/marazmiki/django-ulogin/tree/master/test_project
+- https://github.com/marazmiki/django-ulogin/blob/master/test_project/customize/models.py#L53
+
+
