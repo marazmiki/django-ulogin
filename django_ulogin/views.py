@@ -2,6 +2,7 @@
 
 from django.contrib.auth import login
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -82,7 +83,7 @@ def postback(request):
                 registered=registered,
                 ulogin_user=ulogin, ulogin_data=response)
 
-    return redirect('/')
+    return redirect(request.GET.get(REDIRECT_FIELD_NAME) or '/')
 
 def ulogin_xd(request):
     """

@@ -1,14 +1,28 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-from django_ulogin import settings as s
 from django.core.urlresolvers import reverse as r
-
+from django.contrib.auth import REDIRECT_FIELD_NAME as FLD
+from django_ulogin import settings as s
+import urllib
 
 def get_redirect_url(request):
     if getattr(s, 'REDIRECT_URL'):
         return s.REDIRECT_URL
-    return request.build_absolute_uri( r('ulogin_postback') ) 
+
+    # Current URL
+    return_url = request.build_absolute_uri(request.path_info)
+
+    # Hack the request.GET
+    if FLD not in request.GET:
+        get = request.GET.copy()
+        get.update({ FLD: request.build_absolute_uri(request.path_info) })
+        request.GET = get
+    
+    return urllib.quote(u"{request_url}?{query_string}".format(
+        request_url  = request.build_absolute_uri(r('ulogin_postback')),
+        query_string = urllib.unquote(request.GET.urlencode())
+        ))
 
 def ulogin_widget(context):
     """
