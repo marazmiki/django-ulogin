@@ -61,7 +61,7 @@ def postback(request):
 
         except ULoginUser.DoesNotExist:
             user = User()
-            user.username=uuid.uuid4().hex
+            user.username=uuid.uuid4().hex[:30]
             user.set_unusable_password()
             user.save()
 
