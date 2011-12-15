@@ -1,8 +1,9 @@
 include AUTHORS
 include LICENSE
-include README.rst
+include README
 include CHANGELOG.txt
 include setup.py
+exclude MANIFEST.in
 recursive-include django_ulogin/ *
 recursive-include django_ulogin/locale *
 recursive-include django_ulogin/templates *
