@@ -35,6 +35,10 @@ def ulogin_widget(
         HIDDEN     = ','.join([h for h in s.HIDDEN]),
     ):
 
+    import string
+    import random
+    RAND = ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    
     REDIRECT_URL = get_redirect_url(context['request'])
     return locals()
 
