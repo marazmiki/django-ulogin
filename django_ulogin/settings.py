@@ -3,7 +3,7 @@
 from django.conf import settings as s
 
 # URL
-WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', 'http://ulogin.ru/js/widget.js')
+WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', 'http://ulogin.ru/js/ulogin.js')
 
 # URL to get token
 TOKEN_URL = getattr(s, 'ULOGIN_TOKEN_URL', 'http://ulogin.ru/token.php')
