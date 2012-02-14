@@ -24,19 +24,23 @@ def get_redirect_url(request):
         query_string = urllib.unquote(request.GET.urlencode())
         ))
 
-def ulogin_widget(context):
-    """
-    """
-    return {
-        'WIDGET_URL'   : s.WIDGET_URL,
-        'CALLBACK'     : s.CALLBACK,
-        'DISPLAY'      : s.DISPLAY,
-        'REDIRECT_URL' : get_redirect_url(context['request']),
-        'FIELDS'       : ','.join([f for f in s.FIELDS]),
-        'OPTIONAL'     : ','.join([o for o in s.OPTIONAL]),
-        'PROVIDERS'    : ','.join([p for p in s.PROVIDERS]),
-        'HIDDEN'       : ','.join([h for h in s.HIDDEN]),
-    }
+def ulogin_widget(
+        context, 
+        WIDGET_URL = s.WIDGET_URL,
+        CALLBACK   = s.CALLBACK,
+        DISPLAY    = s.DISPLAY,
+        FIELDS     = ','.join([f for f in s.FIELDS]),
+        OPTIONAL   = ','.join([o for o in s.OPTIONAL]),
+        PROVIDERS  = ','.join([p for p in s.PROVIDERS]),
+        HIDDEN     = ','.join([h for h in s.HIDDEN]),
+    ):
+
+    import string
+    import random
+    RAND = ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    
+    REDIRECT_URL = get_redirect_url(context['request'])
+    return locals()
 
 register = template.Library()
 register.inclusion_tag('django_ulogin/ulogin_widget.html',
