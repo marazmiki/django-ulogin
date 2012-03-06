@@ -26,8 +26,9 @@ REDIRECT_URL = getattr(s, 'ULOGIN_REDIRECT_URL', None)
 #    country
 #
 ################################################################################
-# Required fields
 
+
+# Required fields
 FIELDS = getattr(s, 'ULOGIN_FIELDS', ['email'])
 
 # Optional fields
@@ -46,3 +47,19 @@ HIDDEN = getattr(s, 'ULOGIN_HIDDEN',
 
 # Callback function
 CALLBACK = getattr(s, 'ULOGIN_CALLBACK', None)
+
+def get_scheme(name):
+	try:
+		# Merge scheme with default to get missing params 
+		scheme = dict(s.ULOGIN_SCHEMES["default"], **s.ULOGIN_SCHEMES[name])
+	except AttributeError:
+		# If ULOGIN_SCHEMES not found
+		scheme = {}
+	except KeyError:
+		raise KeyError('uLogin scheme "%s" not found!' % name)
+
+	return {
+		"DISPLAY" 	: scheme.get('DISPLAY', DISPLAY),
+		"PROVIDERS" : scheme.get('PROVIDERS', PROVIDERS),
+		"HIDDEN" 	: scheme.get('HIDDEN', HIDDEN),
+	}
