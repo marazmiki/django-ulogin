@@ -3,7 +3,7 @@
 from django.conf import settings as s
 
 # URL
-WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', 'http://ulogin.ru/js/widget.js')
+WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', 'http://ulogin.ru/js/ulogin.js')
 
 # URL to get token
 TOKEN_URL = getattr(s, 'ULOGIN_TOKEN_URL', 'http://ulogin.ru/token.php')
@@ -26,8 +26,9 @@ REDIRECT_URL = getattr(s, 'ULOGIN_REDIRECT_URL', None)
 #    country
 #
 ################################################################################
-# Required fields
 
+
+# Required fields
 FIELDS = getattr(s, 'ULOGIN_FIELDS', ['email'])
 
 # Optional fields
@@ -46,3 +47,19 @@ HIDDEN = getattr(s, 'ULOGIN_HIDDEN',
 
 # Callback function
 CALLBACK = getattr(s, 'ULOGIN_CALLBACK', None)
+
+def get_scheme(name):
+	try:
+		# Merge scheme with default to get missing params 
+		scheme = dict(s.ULOGIN_SCHEMES["default"], **s.ULOGIN_SCHEMES[name])
+	except AttributeError:
+		# If ULOGIN_SCHEMES not found
+		scheme = {}
+	except KeyError:
+		raise KeyError('uLogin scheme "%s" not found!' % name)
+
+	return {
+		"DISPLAY" 	: scheme.get('DISPLAY', DISPLAY),
+		"PROVIDERS" : scheme.get('PROVIDERS', PROVIDERS),
+		"HIDDEN" 	: scheme.get('HIDDEN', HIDDEN),
+	}
