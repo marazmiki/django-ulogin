@@ -79,6 +79,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ## The django-ulogin settings
 ##
 #ULOGIN_REDIRECT_URL = 'http://frankyshow.com:5000/'
-ULOGIN_DISPLAY = 'panel'
 ULOGIN_FIELDS = ['first_name', 'last_name', 'sex', 'email']
 ULOGIN_OPTIONAL = ['photo', 'photo_big', 'city', 'country', 'bdate']
+
+ULOGIN_SCHEMES = {
+    'default':{
+        'DISPLAY'   : 'panel',
+        'PROVIDERS' : ["vkontakte", "facebook", "twitter", "google"],
+        'HIDDEN'    : [ "yandex", "mailru"],
+    }
+}
