@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from django.template import Template, Context
 from django import test
 from django.conf import settings
 from django.core.urlresolvers import reverse 
 from django.contrib.auth.models import User
 from django_ulogin import views
+from django_ulogin.exceptions import SchemeNotFound
 from django_ulogin.models import ULoginUser
 from django_ulogin.signals import assign
+from django_ulogin.settings import get_scheme
 
 def response(update=None):
     """
@@ -202,3 +205,23 @@ class Test(test.TestCase):
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
         self.client.post(self.url, data={'token': '31337'})
+
+
+    ## scheme
+
+    def test_wrong_scheme(self):
+        def exception():
+            s = get_scheme('unknown_scheme')
+        self.assertRaises(SchemeNotFound, exception)
+
+    def test_wrong_scheme_in_template(self):
+        t = Template("""{% load ulogin_tags %}{% ulogin_widget "unknown_scheme" %}""").render(Context({}))
+        self.assertIn('[ulogin]: scheme unknown_scheme not found', t)
+
+    def test_default_scheme(self):
+        s = get_scheme('default')
+
+        for i in ['PROVIDERS', 'FIELDS', 'CALLBACK', 'HIDDEN', 'OPTIONAL', 'DISPLAY']:
+            self.assertIn(i, s)
+
+#{'PROVIDERS': ['vkontakte', 'facebook', 'twitter', 'google', 'livejournal'], 'FIELDS': ['email'], 'CALLBACK': None, 'HIDDEN': ['yandex', 'odnoklassniki', 'mailru', 'openid'], 'OPTIONAL': [], 'DISPLAY': 'small'}

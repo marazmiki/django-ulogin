@@ -4,6 +4,7 @@ from django import template
 from django.core.urlresolvers import reverse as r
 from django.contrib.auth import REDIRECT_FIELD_NAME as FLD
 from django_ulogin import settings as s
+from django_ulogin.exceptions import SchemeNotFound
 import urllib
 import string, random
 
@@ -28,15 +29,22 @@ def get_redirect_url(request):
 def ulogin_widget(context, name="default"):
     """
     """
-    scheme = s.get_scheme(name)
+    try:
+        scheme = s.get_scheme(name)
+    except SchemeNotFound:
+        return {
+            'SCHEME_NOT_FOUND': True,
+            'NAME': name
+        }
     return {
+        'NAME'         : name,
         'WIDGET_URL'   : s.WIDGET_URL,
-        'CALLBACK'     : s.CALLBACK,
-        'DISPLAY'      : scheme['DISPLAY'],
-        'PROVIDERS'    : ','.join([p for p in scheme['PROVIDERS']]),
-        'HIDDEN'       : ','.join([h for h in scheme['HIDDEN']]),
-        'FIELDS'       : ','.join([f for f in s.FIELDS]),
-        'OPTIONAL'     : ','.join([o for o in s.OPTIONAL]),
+        'CALLBACK'     : scheme.get('CALLBACK', s.CALLBACK),
+        'DISPLAY'      : scheme.get('DISPLAY',  s.DISPLAY),
+        'PROVIDERS'    : ','.join([p for p in scheme.get('PROVIDERS', s.PROVIDERS)]),
+        'HIDDEN'       : ','.join([h for h in scheme.get('HIDDEN',    s.HIDDEN)]),
+        'FIELDS'       : ','.join([f for f in scheme.get('FIELDS',    s.FIELDS)]),
+        'OPTIONAL'     : ','.join([o for o in scheme.get('OPTIONAL',  s.OPTIONAL)]),
         'REDIRECT_URL' : get_redirect_url(context['request']),
         'RAND'         : ''.join(random.choice(string.ascii_lowercase) for x in range(5)),
     }

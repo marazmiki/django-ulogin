@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings as s
+from django_ulogin.exceptions import SchemeNotFound
 
 # URL
 WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', 'http://ulogin.ru/js/ulogin.js')
@@ -27,7 +28,6 @@ REDIRECT_URL = getattr(s, 'ULOGIN_REDIRECT_URL', None)
 #
 ################################################################################
 
-
 # Required fields
 FIELDS = getattr(s, 'ULOGIN_FIELDS', ['email'])
 
@@ -48,18 +48,27 @@ HIDDEN = getattr(s, 'ULOGIN_HIDDEN',
 # Callback function
 CALLBACK = getattr(s, 'ULOGIN_CALLBACK', None)
 
-def get_scheme(name):
-	try:
-		# Merge scheme with default to get missing params 
-		scheme = dict(s.ULOGIN_SCHEMES["default"], **s.ULOGIN_SCHEMES[name])
-	except AttributeError:
-		# If ULOGIN_SCHEMES not found
-		scheme = {}
-	except KeyError:
-		raise KeyError('uLogin scheme "%s" not found!' % name)
+DEFAULT_SCHEME = {
+    'FIELDS'    : FIELDS,
+    'OPTIONAL'  : OPTIONAL,
+    'DISPLAY'   : DISPLAY,
+    'PROVIDERS' : PROVIDERS,
+    'HIDDEN'    : HIDDEN,
+    'CALLBACK'  : CALLBACK,
+}
 
-	return {
-		"DISPLAY" 	: scheme.get('DISPLAY', DISPLAY),
-		"PROVIDERS" : scheme.get('PROVIDERS', PROVIDERS),
-		"HIDDEN" 	: scheme.get('HIDDEN', HIDDEN),
-	}
+SCHEMES = getattr(s, 'ULOGIN_SCHEMES', {'default': DEFAULT_SCHEME })
+
+def get_scheme(name):
+    try:
+        scheme = SCHEMES[name]
+    except KeyError:
+        raise SchemeNotFound, "Scheme with name {name} not found".format(name=name)
+    return {
+        'FIELDS'    : scheme.get('FIELDS',    FIELDS),
+        'OPTIONAL'  : scheme.get('OPTIONAL',  OPTIONAL),
+        'DISPLAY'   : scheme.get('DISPLAY',   DISPLAY),
+        'PROVIDERS' : scheme.get('PROVIDERS', PROVIDERS),
+        'HIDDEN'    : scheme.get('HIDDEN',    HIDDEN),
+        'CALLBACK'  : scheme.get('CALLBACK',  CALLBACK),
+    }

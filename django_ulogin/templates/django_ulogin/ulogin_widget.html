@@ -1,15 +1,17 @@
 {% spaceless %}
+{% if SCHEME_NOT_FOUND %}
+    <div>[ulogin]: scheme {{ NAME }} not found</div>
+{% else %}
     {% load i18n %}
-
     <script src="{{ WIDGET_URL }}"></script>
-
     {% if DISPLAY == 'small' %}
-		<div id="uLogin_{{ RAND }}" x-ulogin-params="display=small&amp;fields={{ SCHEME.FIELDS }}&amp;optional={{ SCHEME.OPTIONAL }}&amp;providers={{ SCHEME.PROVIDERS }}&amp;hidden={{ SCHEME.HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></div>
+        <div id="uLogin_{{ RAND }}" x-ulogin-params="display=small&amp;fields={{ FIELDS }}&amp;optional={{ OPTIONAL }}&amp;providers={{ SCHEME.PROVIDERS }}&amp;hidden={{ SCHEME.HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></div>
     {% endif %}
     {% if DISPLAY == 'panel' %}
-		<div id="uLogin_{{ RAND }}" x-ulogin-params="display=panel&amp;fields={{ SCHEME.FIELDS }}&amp;optional={{ SCHEME.OPTIONAL }}&amp;providers={{ SCHEME.PROVIDERS }}&amp;hidden={{ SCHEME.HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></div>
-	{% endif %}
-    {% if DISPLAY == 'button' %}
-		<a href="#" id="uLogin_{{ RAND }}" x-ulogin-params="display=window&amp;fields={{ SCHEME.FIELDS }}&amp;optional={{ SCHEME.OPTIONAL }}&amp;providers={{ SCHEME.PROVIDERS }}&amp;hidden={{ SCHEME.HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"><img src="http://ulogin.ru/img/button.png" width=187 height=30 alt="{% trans "Multipass" %}"/></a>
+        <div id="uLogin_{{ RAND }}" x-ulogin-params="display=panel&amp;fields={{ FIELDS }}&amp;optional={{ OPTIONAL }}&amp;providers={{ SCHEME.PROVIDERS }}&amp;hidden={{ SCHEME.HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></div>
     {% endif %}
+    {% if DISPLAY == 'button' %}
+        <a href="#" id="uLogin_{{ RAND }}" x-ulogin-params="display=window&amp;fields={{ FIELDS }}&amp;optional={{ OPTIONAL }}&amp;providers={{ SCHEME.PROVIDERS }}&amp;hidden={{ HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"><img src="http://ulogin.ru/img/button.png" width="187" height="30" alt="{% trans "Multipass" %}"/></a>
+    {% endif %}
+{% endif %}
 {% endspaceless %}
