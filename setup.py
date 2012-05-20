@@ -5,7 +5,9 @@ from setuptools import setup, find_packages
 import os
 
 version = __import__('django_ulogin').get_version()
-CLASSIFIERS=[
+readme = os.path.join(os.path.dirname(__file__), 'README.rst')
+
+CLASSIFIERS = [
     'Development Status :: 4 - Beta',
     'Environment :: Web Environment',
     'Intended Audience :: Developers',
@@ -16,15 +18,15 @@ CLASSIFIERS=[
 ]
 
 setup(
-    name = 'django-ulogin',
-    author = 'marazmiki',
-    version = version,
-    author_email = 'marazmiki@gmail.com',
-    url = 'http://pypi.python.org/pypi/django-ulogin',
-    download_url = 'http://bitbucket.org/marazmiki/django-ulogin/get/tip.zip',
-    description = 'User social authentication with ulogin.ru service',
-    long_description = open(os.path.join(os.path.dirname(__file__), 'README')).read(),
-    license = 'MIT license',
+    name='django-ulogin',
+    author='Mikhail Porokhovnichenko <marazmiki@gmail.com>',
+    version=version,
+    author_email='marazmiki@gmail.com',
+    url='http://pypi.python.org/pypi/django-ulogin',
+    download_url='http://bitbucket.org/marazmiki/django-ulogin/get/tip.zip',
+    description='User social authentication with ulogin.ru service',
+    long_description=open(readme).read(),
+    license='MIT license',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     install_requires=[
@@ -34,6 +36,4 @@ setup(
     ],
     packages=find_packages(exclude=['test_project', 'test_project.*']),
     include_package_data=True,
-    zip_safe = False
-)
-
+    zip_safe=False)
