@@ -1,0 +1,6 @@
+{% load i18n %}
+<p>{% blocktrans with identity as identity %}Are you really want to delete {{ identity }}?{% endblocktrans %}</p>
+
+<form method="post" action="{{ request.path_info }}">
+    <input type="submit" value="{% trans "I confirm" %}" />
+</form>

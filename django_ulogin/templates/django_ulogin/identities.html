@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+    <div>
+        <ul>
+        {% for identity in identities %}
+            <li><a href="{{ identity.url }}">{{ identity.uid }}</a> ({{ identity.get_network_display }})</li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

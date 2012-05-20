@@ -1,8 +1,20 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url
+from django_ulogin.views import PostBackView, CrossDomainView, \
+    IdentityListView, IdentityDeleteView
 
-urlpatterns = patterns('django_ulogin.views',
-    url('^postback/$',      'postback', name='ulogin_postback'),
-    url('^ulogin_xd.html$', 'ulogin_xd', name='ulogin_xd'),
-)
+urlpatterns = [
+    url('^identities/$',
+        view=IdentityListView.as_view(),
+        name='ulogin_identities_list'),
+    url('^identities/(?P<pk>\d+)/delete/$',
+        view=IdentityDeleteView.as_view(),
+        name='ulogin_identities_delete'),
+    url('^postback/$',
+        view=PostBackView.as_view(),
+        name='ulogin_postback'),
+    url('^ulogin_xd.html$',
+        view=CrossDomainView.as_view(),
+        name='ulogin_xd'),
+]

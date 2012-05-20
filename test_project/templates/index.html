@@ -11,6 +11,10 @@
             <p><a href="{% url logout %}">Logout</a></p>
         {% else %}
             {% ulogin_widget %}
+
+            <hr />
+            <p>Enter with google:</p>
+        {% ulogin_widget "small_google" %}
         {% endif %}
     </div>
 </body>

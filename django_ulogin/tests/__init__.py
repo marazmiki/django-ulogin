@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from django.template import Template, Context
 from django import test
-from django.conf import settings
-from django.core.urlresolvers import reverse 
+from django.template import Template, Context
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django_ulogin import views
 from django_ulogin.exceptions import SchemeNotFound
 from django_ulogin.models import ULoginUser
 from django_ulogin.signals import assign
 from django_ulogin.settings import get_scheme
+
 
 def response(update=None):
     """
@@ -33,6 +33,7 @@ def response(update=None):
         data.update(update)
     return data
 
+
 class Test(test.TestCase):
     """
     """
@@ -41,16 +42,15 @@ class Test(test.TestCase):
     def setUp(self):
         self.client = test.Client()
         self.url = reverse('ulogin_postback')
-        views.ulogin_response = lambda token, host: response(None)
+        views.PostBackView.ulogin_response = lambda cls, token, host: response(None)
 
     def test_has_error(self):
         """
         Tests if in response there is key 'error', in context it there is
         too
         """
-        views.ulogin_response = lambda token, host: response({'error': 'Token expired'})
+        views.PostBackView.ulogin_response = lambda cls, token, host: response({'error': 'Token expired'})
         resp = self.client.post(self.url, data={'token': '31337'})
-
         self.assertEquals(200, resp.status_code)
         self.assertTrue('json' in resp.context)
         self.assertTrue('error' in resp.context['json'])
@@ -125,7 +125,6 @@ class Test(test.TestCase):
         
     def test_user_logged(self):
         resp = self.client.post(self.url, data={'token': 31331},follow=True)
-
         self.assertEquals(200, resp.status_code)
         self.assertTrue( resp.context['request'].user.is_authenticated() )
 
@@ -148,6 +147,8 @@ class Test(test.TestCase):
         self.client.login(username=username, password=password)
         self.client.post(self.url, data={'token': '31337'})
 
+        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
+
     def test_user_authenticated_ulogin_exists(self):
         """
         Tests received from view data when user is authenticated and
@@ -160,14 +161,36 @@ class Test(test.TestCase):
         def handler(**kwargs):
             self.assertFalse( kwargs['registered'] )
 
+        ULoginUser.objects.create(user=user, network=response()['network'],
+            uid=response()['uid'])
+
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
 
-        ULoginUser.objects.create(user=user, network=response()['network'],
-                                         uid=response()['uid'])
         self.client.login(username=username, password=password)
         self.client.post(self.url, data={'token': '31337'})
-       
+
+        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
+
+    def test_user_authenticated_and_some_ulogins(self):
+        username, password = 'demo', 'demo'
+        user = User.objects.create_user(username=username,
+            password=password,
+            email='demo@demo.de')
+        self.client.login(username=username, password=password)
+
+        # First account
+        page = self.client.post(self.url, data={'token':'31337'})
+
+        views.PostBackView.ulogin_response = lambda cls, token, host: response({'network': 'twitter', 'uid': 'django', 'identity': 'http://twitter.com/django'})
+
+        # Snd account
+        page = self.client.post(self.url, data={'token':'31337'})
+#        print [f.__dict__ for f in ULoginUser.objects.filter(user=user)]
+        self.assertEquals(2, ULoginUser.objects.filter(user=user).count())
+        self.assertEquals(1, ULoginUser.objects.filter(user=user, network='vkontakte').count())
+        self.assertEquals(1, ULoginUser.objects.filter(user=user, network='twitter').count())
+
     def test_user_not_authenticated_ulogin_exists(self):
         """
         Tests received from view data when user is not authenticated and
@@ -187,6 +210,7 @@ class Test(test.TestCase):
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
         self.client.post(self.url, data={'token': '31337'})
+        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
 
     def test_user_not_authenticated_ulogin_not_exists(self):
         """
@@ -205,7 +229,7 @@ class Test(test.TestCase):
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
         self.client.post(self.url, data={'token': '31337'})
-
+        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
 
     ## scheme
 
@@ -224,4 +248,8 @@ class Test(test.TestCase):
         for i in ['PROVIDERS', 'FIELDS', 'CALLBACK', 'HIDDEN', 'OPTIONAL', 'DISPLAY']:
             self.assertIn(i, s)
 
-#{'PROVIDERS': ['vkontakte', 'facebook', 'twitter', 'google', 'livejournal'], 'FIELDS': ['email'], 'CALLBACK': None, 'HIDDEN': ['yandex', 'odnoklassniki', 'mailru', 'openid'], 'OPTIONAL': [], 'DISPLAY': 'small'}
+
+####
+
+from django_ulogin.tests.identities import *
+from django_ulogin.tests.templatetags import *

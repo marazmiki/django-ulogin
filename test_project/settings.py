@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import os
 
@@ -61,9 +61,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django_ulogin',
-
     'customize',
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -78,14 +76,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ##
 ## The django-ulogin settings
 ##
-#ULOGIN_REDIRECT_URL = 'http://frankyshow.com:5000/'
 ULOGIN_FIELDS = ['first_name', 'last_name', 'sex', 'email']
 ULOGIN_OPTIONAL = ['photo', 'photo_big', 'city', 'country', 'bdate']
 
 ULOGIN_SCHEMES = {
     'default':{
-        'DISPLAY'   : 'panel',
-        'PROVIDERS' : ["vkontakte", "facebook", "twitter", "google"],
-        'HIDDEN'    : [ "yandex", "mailru"],
+        'DISPLAY': 'panel',
+        'PROVIDERS': ["vkontakte", "facebook", "twitter", "google"],
+        'HIDDEN': [ "yandex", "mailru"],
+    },
+    'small_google':{
+        'DISPLAY': 'small',
+        'PROVIDERS': ["google"],
+        'HIDDEN': [],
     }
 }
