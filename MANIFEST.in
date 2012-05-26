@@ -1,6 +1,6 @@
 include AUTHORS
 include LICENSE
-include README
+include README.rst
 include CHANGELOG.txt
 include setup.py
 exclude MANIFEST.in
