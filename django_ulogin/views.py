@@ -92,7 +92,7 @@ class PostBackView(CsrfExemptMixin, FormView):
 
         # Authenticate user
         if not hasattr(user, 'backend'):
-            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            user.backend = settings.AUTHENTICATION_BACKEND
         login(self.request, user)
 
         return user, ulogin, registered

@@ -91,6 +91,7 @@ DEFAULT_SCHEME = {
 
 SCHEMES = getattr(s, 'ULOGIN_SCHEMES', {'default': DEFAULT_SCHEME})
 
+AUTHENTICATION_BACKEND = getattr(s, 'ULOGIN_AUTHENTICATION_BACKEND', 'django.contrib.auth.backends.ModelBackend')
 
 def get_scheme(name):
     try:

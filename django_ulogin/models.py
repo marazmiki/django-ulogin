@@ -6,6 +6,13 @@ from django.contrib.auth.models import User
 from django_ulogin import settings as s
 
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    from datetime import datetime
+    now = datetime.now
+
+
 class ULoginUser(models.Model):
     user = models.ForeignKey(User,
         related_name='ulogin_users',
@@ -22,7 +29,7 @@ class ULoginUser(models.Model):
         max_length=255)
     date_created = models.DateTimeField(_('date created'),
         editable=False,
-        auto_now=True)
+        default = now)
 
     def __unicode__(self):
         return unicode(self.user)

@@ -1,6 +1,12 @@
 Список изменений
 ================
 
+0.1.6
+-----
+
+* Добавлен параметр ULOGIN_AUTHENTICATION_BACKEND
+* Грамотная работа с timezones при USE_TZ=True (в Django 1.4)
+
 0.1.5
 -----
 
