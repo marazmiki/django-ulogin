@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse as r
 from django.contrib.auth import REDIRECT_FIELD_NAME as FLD
 from django_ulogin import settings as s
 from django_ulogin.exceptions import SchemeNotFound
+from django.utils.encoding import smart_unicode
+from django.utils.http import urlquote
 import urllib
 import string
 import random
@@ -25,9 +27,9 @@ def get_redirect_url(request):
         })
         request.GET = get
 
-    return urllib.quote(u"{request_url}?{query_string}".format(
+    return urlquote(u"{request_url}?{query_string}".format(
         request_url=request.build_absolute_uri(r('ulogin_postback')),
-        query_string=urllib.unquote(request.GET.urlencode())
+        query_string=smart_unicode(urllib.unquote(request.GET.urlencode()))
     ))
 
 
