@@ -8,11 +8,11 @@
         {% ulogin_media %}
 
         {% if DISPLAY == 'button' %}
-            <a  id="uLogin-b{{ RAND }}" href="#" x-ulogin-params="display=window&amp;fields={{ FIELDS }}&amp;optional={{ OPTIONAL }}&amp;providers={{ PROVIDERS }}&amp;hidden={{ HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}">
-                <img src="http://ulogin.ru/img/button.png" width="187" height="30" alt="{% trans "Multipass" %} "/>
+            <a  id="uLogin-b{{ RAND }}" href="#" data-ulogin="display=window;fields={{ FIELDS }};optional={{ OPTIONAL }};providers={{ PROVIDERS }};hidden={{ HIDDEN }};redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %};callback={{ CALLBACK }}{% endif %}">
+                <img src="//ulogin.ru/img/button.png" width="187" height="30" alt="{% trans "Multipass" %} "/>
             </a>
         {% else %}
-            <div id="uLogin-{{ RAND }}" x-ulogin-params="display={{ DISPLAY }}&amp;fields={{ FIELDS }}&amp;optional={{ OPTIONAL }}&amp;providers={{ PROVIDERS }}&amp;hidden={{ HIDDEN }}&amp;redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %}&amp;callback={{ CALLBACK }}{% endif %}"></div>
+            <div id="uLogin-{{ RAND }}" data-ulogin="display={{ DISPLAY }};fields={{ FIELDS }};optional={{ OPTIONAL }};providers={{ PROVIDERS }};hidden={{ HIDDEN }};redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %};callback={{ CALLBACK }}{% endif %}"></div>
         {% endif %}
     {% endif %}
 {% endspaceless %}

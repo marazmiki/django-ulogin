@@ -30,8 +30,8 @@ setup(
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     install_requires=[
-        'Django>=1.3.1',
-        'requests>=0.7.4',
+        'Django',
+        'requests',
         'mock>=0.8.0',
     ],
     packages=find_packages(exclude=['test_project', 'test_project.*']),
