@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import get_random_string
 from django.utils.module_loading import import_by_path
 from django_ulogin import settings as s
+import uuid
 
 try:
     from django.contrib.auth import get_user_model
