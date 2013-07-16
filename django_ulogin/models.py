@@ -7,6 +7,7 @@ from django.utils.crypto import get_random_string
 from django_ulogin import settings as s
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
+import uuid
 
 
 try:
@@ -23,8 +24,8 @@ except ImportError:
         try:
            module_path, class_name = dotted_path.rsplit('.', 1)
         except ValueError:
-            aise ImproperlyConfigured("%s%s doesn't look like a module path" % (
-                                      error_prefix, dotted_path))
+            raise ImproperlyConfigured("%s%s doesn't look like a module path" % (
+                                       error_prefix, dotted_path))
         try:
             module = import_module(module_path)
         except ImportError as e:

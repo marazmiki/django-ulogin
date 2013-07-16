@@ -164,3 +164,4 @@ class IdentityDeleteView(ULoginMixin, DeleteView):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'instance': self.get_object()})
+
