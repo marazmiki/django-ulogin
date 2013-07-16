@@ -4,21 +4,40 @@ from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import get_random_string
-from django.utils.module_loading import import_by_path
 from django_ulogin import settings as s
+from django.contrib.auth import get_user_model
+from django.utils.timezone import now
+
 
 try:
-    from django.contrib.auth import get_user_model
+    from django.utils.module_loading import import_by_path
 except ImportError:
-    def get_user_model():
-        from django.contrib.auth.models import User
-        return User
+    # For Django 1.5x
+    import six
 
-try:
-    from django.utils.timezone import now
-except ImportError:
-    from datetime import datetime
-    now = datetime.now
+    def import_by_path(dotted_path, error_prefix=''):
+        """
+        Import a dotted module path and return the attribute/class designated by the
+        last name in the path. Raise ImproperlyConfigured if something goes wrong.
+        """
+        try:
+           module_path, class_name = dotted_path.rsplit('.', 1)
+        except ValueError:
+            aise ImproperlyConfigured("%s%s doesn't look like a module path" % (
+                                      error_prefix, dotted_path))
+        try:
+            module = import_module(module_path)
+        except ImportError as e:
+            msg = '%sError importing module %s: "%s"' % (
+                error_prefix, module_path, e)
+            six.reraise(ImproperlyConfigured, ImproperlyConfigured(msg),
+                        sys.exc_info()[2])
+        try:
+            attr = getattr(module, class_name)
+        except AttributeError:
+            raise ImproperlyConfigured('%sModule "%s" does not define a "%s" attribute/class' % (
+                error_prefix, module_path, class_name))
+        return attr
 
 
 class ULoginUser(models.Model):

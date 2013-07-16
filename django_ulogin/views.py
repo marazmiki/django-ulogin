@@ -16,7 +16,6 @@ from django_ulogin.models import ULoginUser, create_user
 from django_ulogin.signals import assign
 from django_ulogin.forms import PostBackForm
 import requests
-import uuid
 import json
 
 
@@ -29,6 +28,7 @@ class CsrfExemptMixin(object):
         return super(CsrfExemptMixin, self).dispatch(request, *args, **kwargs)
 
 
+class LoginRequiredMixin(object):
     """
     A mixin that provides a way to restrict anonymous access
     """
