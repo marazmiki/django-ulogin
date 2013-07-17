@@ -33,6 +33,7 @@ setup(
         'Django',
         'requests',
         'mock>=0.8.0',
+        'six',
     ],
     packages=find_packages(exclude=['test_project', 'test_project.*']),
     include_package_data=True,
