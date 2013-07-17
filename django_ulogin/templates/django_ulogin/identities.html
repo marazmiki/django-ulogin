@@ -1,13 +1,27 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head></head>
 <body>
-    <div>
-        <ul>
-        {% for identity in identities %}
-            <li><a href="{{ identity.url }}">{{ identity.uid }}</a> ({{ identity.get_network_display }})</li>
+    <div class="container">
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Identity' %}</th>
+            <th>{% trans 'Network' %}</th>
+            <th>{% trans 'Control' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for identity in identities %}
+        <tr>
+            <td><a href="{{ identity.identity }}">{{ identity.uid }}</a></td>
+            <td>{{ identity.get_network_display }}</td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'ulogin_identities_delete' identity.pk %}">{% trans 'Revoke' %}</a>
+            </td>
+        </tr>
         {% endfor %}
-        </ul>
-    </div>
+    </tbody>
 </body>
 </html>

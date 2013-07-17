@@ -2,20 +2,21 @@
 <html>
 <head>
     <title>ULogin test</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
 </head>
 <body>
-    <div class="containter">
-        {% if request.user.is_authenticated %}
-            <p>Hi, {{ request.user.first_name }} {{request.user.last_name }}!</p>
-            <p><a href="{% url 'logout' %}">Logout</a></p>
-        {% else %}
-            {% ulogin_widget %}
-
-            <hr />
-            <p>Enter with google:</p>
+<div class="containter">
+    {% if request.user.is_authenticated %}   
+        <p>Hi there, {{ request.user.first_name }} {{ request.user.last_name }}!</p>
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+        <p>Or, you can add another profile into <a href="{% url 'ulogin_identities_list' %}">list of assign identities</a></p>
+        {% ulogin_widget %}
+    {% else %}
+        <p>Hello, guest. You can authenticate here within one of your profiles in many social networks</p>
+        {% ulogin_widget %}
+        <p>Or within Google only</p>
         {% ulogin_widget "small_google" %}
-        {% endif %}
-    </div>
+    {% endif %}
+</div>
 </body>
 </html>

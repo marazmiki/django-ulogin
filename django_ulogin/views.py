@@ -17,6 +17,10 @@ from django_ulogin.signals import assign
 from django_ulogin.forms import PostBackForm
 import requests
 import json
+import logging
+
+
+logger = logging.getLogger('django_ulogin.views')
 
 
 class CsrfExemptMixin(object):
@@ -61,12 +65,21 @@ class PostBackView(CsrfExemptMixin, FormView):
         Handles the ULogin response if user is already
         authenticated
         """
-        ulogin, registered = ULoginUser.objects.get_or_create(user=self.request.user,
-                                                              uid=response['uid'],
+        current_user = self.request.user
+
+        ulogin, registered = ULoginUser.objects.get_or_create(uid=response['uid'],
                                                               network=response['network'],
-                                                              defaults={
-                                                                  'identity': response['identity'],
-                                                              })
+                                                              defaults={'identity': response['identity'],
+                                                                        'user': current_user})
+        if not registered:
+            ulogin_user = ulogin.user
+            logger.debug('uLogin user already exists')
+
+            if current_user != ulogin_user:
+                logger.debug("Mismatch: %s is not a %s. Take over it!" % (current_user, ulogin_user))
+                ulogin.user = current_user
+                ulogin.save()
+        
         return self.request.user, ulogin, registered
 
     def handle_anonymous_user(self, response):
