@@ -48,6 +48,19 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+)
+TEMPLATE_DIRS = (
+    rel('templates'),
+)
+
+
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -62,10 +75,6 @@ ROOT_URLCONF = 'test_project.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'test_project.wsgi.application'
 
-TEMPLATE_DIRS = (
-    rel('templates'),
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,4 +85,25 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_ulogin',
 )
+
+
+##
+## The django-ulogin settings
+##
+ULOGIN_FIELDS = ['first_name', 'last_name', 'sex', 'email']
+ULOGIN_OPTIONAL = ['photo', 'photo_big', 'city', 'country', 'bdate']
+
+ULOGIN_SCHEMES = {
+    'default':{
+        'DISPLAY': 'panel',
+        'PROVIDERS': ["vkontakte", "facebook", "twitter", "google"],
+        'HIDDEN': [ "yandex", "mailru"],
+    },
+    'small_google':{
+        'DISPLAY': 'small',
+        'PROVIDERS': ["google"],
+        'HIDDEN': [],
+    }
+}
+
 
