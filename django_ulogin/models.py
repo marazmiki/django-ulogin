@@ -76,8 +76,8 @@ def create_user(request, ulogin_response):
     Creates user
     """
     # Custom behaviour
-    if settings.CREATE_USER_CALLBACK is not None:
-        callback = import_by_path(settings.CREATE_USER_CALLBACK)
+    if s.CREATE_USER_CALLBACK is not None:
+        callback = import_by_path(s.CREATE_USER_CALLBACK)
         if callable(callback):
             return callback(request=request, ulogin_response=ulogin_response)
         raise ImproperlyConfigured("The ULOGIN_CREATE_USER_CALLBACK isn't a callable")

@@ -28,6 +28,7 @@ ALLOWED_PROVIDERS = (
     ('foursquare',      _('Foursquare')),
     ('googleplus',      _('Google+')),
     ('tumblr',          _('Tumblr')),
+    ('dudu',            _('Dudu')),
 )
 
 
