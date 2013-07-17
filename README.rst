@@ -219,6 +219,9 @@ Django-ulogin является приложением для социально�
 
 Можно изучить тестовый проект, в котором реализована функция сохранения данных, полученных от ULogin:
 
+- https://github.com/marazmiki/django-ulogin/tree/master/test_project
+- https://github.com/marazmiki/django-ulogin/blob/master/test_project/customize/models.py#L58
+
 
 Создание нестандартной модели пользователя
 ------------------------------------------
@@ -253,6 +256,3 @@ Django-ulogin является приложением для социально�
     ULOGIN_CREATE_USER_CALLBACK = "my_projects.utils.my_user_create"
 
 
-
-- https://github.com/marazmiki/django-ulogin/tree/master/test_project
-- https://github.com/marazmiki/django-ulogin/blob/master/test_project/customize/models.py#L47
