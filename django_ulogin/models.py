@@ -1,5 +1,9 @@
 # coding: utf-8
 
+import uuid
+import sys
+from importlib import import_module
+
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
@@ -7,7 +11,6 @@ from django.utils.crypto import get_random_string
 from django_ulogin import settings as s
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
-import uuid
 
 
 try:
