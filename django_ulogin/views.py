@@ -2,22 +2,22 @@
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
-from django.contrib.auth import login, REDIRECT_FIELD_NAME
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView, DeleteView
-from django.views.generic.list import ListView
-from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from django_ulogin import settings
-from django_ulogin.models import ULoginUser
+from django_ulogin.models import ULoginUser, create_user
 from django_ulogin.signals import assign
 from django_ulogin.forms import PostBackForm
 import requests
-import uuid
+import json
+import logging
+
+
+logger = logging.getLogger('django_ulogin.views')
 
 
 class CsrfExemptMixin(object):
@@ -62,13 +62,21 @@ class PostBackView(CsrfExemptMixin, FormView):
         Handles the ULogin response if user is already
         authenticated
         """
-        ulogin, registered = ULoginUser.objects.get_or_create(
-            user=self.request.user,
-            uid=response['uid'],
-            network=response['network'],
-            defaults={
-                'identity': response['identity'],
-            })
+        current_user = self.request.user
+
+        ulogin, registered = ULoginUser.objects.get_or_create(uid=response['uid'],
+                                                              network=response['network'],
+                                                              defaults={'identity': response['identity'],
+                                                                        'user': current_user})
+        if not registered:
+            ulogin_user = ulogin.user
+            logger.debug('uLogin user already exists')
+
+            if current_user != ulogin_user:
+                logger.debug("Mismatch: %s is not a %s. Take over it!" % (current_user, ulogin_user))
+                ulogin.user = current_user
+                ulogin.save()
+        
         return self.request.user, ulogin, registered
 
     def handle_anonymous_user(self, response):
@@ -79,11 +87,12 @@ class PostBackView(CsrfExemptMixin, FormView):
             ulogin = ULoginUser.objects.get(network=response['network'],
                                             uid=response['uid'])
         except ULoginUser.DoesNotExist:
-            user = User.objects.create(username=uuid.uuid4().hex[:30])
+            user = create_user(request=self.request,
+                               ulogin_response=response)
             ulogin = ULoginUser.objects.create(user=user,
-                network=response['network'],
-                identity=response['identity'],
-                uid=response['uid'])
+                                               network=response['network'],
+                                               identity=response['identity'],
+                                               uid=response['uid'])
             registered = True
         else:
             user = ulogin.user
@@ -115,11 +124,11 @@ class PostBackView(CsrfExemptMixin, FormView):
             self.handle_anonymous_user(response)
 
         assign.send(sender=ULoginUser,
-            user=self.request.user,
-            request=self.request,
-            registered=registered,
-            ulogin_user=identity,
-            ulogin_data=response)
+                    user=self.request.user,
+                    request=self.request,
+                    registered=registered,
+                    ulogin_user=identity,
+                    ulogin_data=response)
         return redirect(self.request.GET.get(REDIRECT_FIELD_NAME) or '/')
 
     def form_invalid(self, form):
@@ -132,7 +141,7 @@ class PostBackView(CsrfExemptMixin, FormView):
         """
         Makes a request to ULOGIN
         """
-        return simplejson.loads(requests.get(settings.TOKEN_URL, params={
+        return json.loads(requests.get(settings.TOKEN_URL, params={
             'token': token,
             'host': host
         }).content)
@@ -164,6 +173,5 @@ class IdentityDeleteView(ULoginMixin, DeleteView):
         return reverse('ulogin_identities_list')
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {
-            'instance': self.get_object()
-        })
+        return render(request, self.template_name, {'instance': self.get_object()})
+

@@ -3,5 +3,7 @@
 .hgignore
 *.swp
 *.pyc
+*.sqlite
+*.sqlite3
 dist/
 *.egg-info/

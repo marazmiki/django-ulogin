@@ -25,7 +25,12 @@ ALLOWED_PROVIDERS = (
     ('livejournal',     _('LiveJournal')),
     ('twitter',         _('Twitter')),
     ('facebook',        _('Facebook')),
+    ('foursquare',      _('Foursquare')),
+    ('googleplus',      _('Google+')),
+    ('tumblr',          _('Tumblr')),
+    ('dudu',            _('Dudu')),
 )
+
 
 ALLOWED_FIELDS = (
     ('first_name',  _('First name')),
@@ -40,6 +45,7 @@ ALLOWED_FIELDS = (
     ('country',     _('Country')),
     ('phone',       _('Phone')),
 )
+
 
 SEX_CHOICES = (
     (1, _('female')),
@@ -93,6 +99,8 @@ SCHEMES = getattr(s, 'ULOGIN_SCHEMES', {'default': DEFAULT_SCHEME})
 
 AUTHENTICATION_BACKEND = getattr(s, 'ULOGIN_AUTHENTICATION_BACKEND', 'django.contrib.auth.backends.ModelBackend')
 
+CREATE_USER_CALLBACK = getattr(s, 'ULOGIN_CREATE_USER_CALLBACK', None)
+
 def get_scheme(name):
     try:
         scheme = SCHEMES[name]
@@ -107,3 +115,4 @@ def get_scheme(name):
         'HIDDEN': scheme.get('HIDDEN',    HIDDEN),
         'CALLBACK': scheme.get('CALLBACK',  CALLBACK),
     }
+

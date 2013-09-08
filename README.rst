@@ -5,8 +5,8 @@ Django-ulogin является приложением для социально�
 
 Требования
 -----------
-- Python 2.6 и выше;
-- Django Framework версии 1.3.1;
+- Python 2.7 и выше;
+- Django Framework версии 1.5.1 или выше;
 - requests версии 0.7.4 или выше;
 - mock версии 0.8.0 (используется только для запуска тестов).
 
@@ -149,6 +149,10 @@ Django-ulogin является приложением для социально�
 
 Если при входе нужно выполнить какую-то JavaScript-функцию, укажите её в виде строки в переменной ``ULOGIN_CALLBACK``.
 
+Если необходимо создать функцию, создающую пользователя Django (это полезно при использовании нестандартной модели), можно
+указать полный путь до неё в переменной ``ULOGIN_CREATE_USER_CALLBACK`` (см. ниже)
+
+
 Схемы
 -----
 
@@ -201,20 +205,54 @@ Django-ulogin является приложением для социально�
         json=kwargs['ulogin_data']
 
         if kwargs['registered']:
-            user.username=json['username']
-            user.first_name=json['first_name']
-            user.last_name=json['last_name']
-            user.email=json['email']
+            user.username = json['username']
+            user.first_name = json['first_name']
+            user.last_name = json['last_name']
+            user.email = json['email']
             user.save()
 
     from django_ulogin.models import ULoginUser
 
-    assign.connect(receiver = catch_ulogin_signal,
-                   sender   = ULoginUser,
-                   dispatch_uid = 'customize.models')
-
+    assign.connect(receiver=catch_ulogin_signal,
+                   sender=ULoginUser,
+                   dispatch_uid='customize.models')
 
 Можно изучить тестовый проект, в котором реализована функция сохранения данных, полученных от ULogin:
 
 - https://github.com/marazmiki/django-ulogin/tree/master/test_project
-- https://github.com/marazmiki/django-ulogin/blob/master/test_project/customize/models.py#L47
+- https://github.com/marazmiki/django-ulogin/blob/master/test_project/customize/models.py#L58
+
+
+Создание нестандартной модели пользователя
+------------------------------------------
+
+По умолчанию при аутентификации пользователя через социальные сети будет создаваться стандартный 
+пользователь Django; в качестве имени будет использоваться обрезанный UUID4-хеш.
+
+Однако если Вы используете собственную модель, отличную от ``django.contrib.auth.models.User``, в
+которой содержатся другие поля, то можете написать собственную функцию, которая создавала бы 
+пользователя по Вашему сценарию.
+
+Требования к этой функции:
+
+- она должна принимать два аргумента - ``request`` и ``ulogin_response`` для передачи объекта HttpRequest и JSON, полученного от [ulogin.ru](http://ulogin.ru) соответственно;
+- возвращать сохранённую модель пользователя
+
+Пример:
+
+::
+
+    def my_user_create(request, ulogin_response):
+        from my_projects.models import MyUser
+        return MyUser.objects.create_user(username='Vasya_' + uuid.uuid4().hex, 
+                                          birthday=datetime.date.today())
+
+
+После этого в настройках проекта в переменной ``ULOGIN_CREATE_USER_CALLBACK`` указать
+полный путь этой функции:
+
+::
+
+    ULOGIN_CREATE_USER_CALLBACK = "my_projects.utils.my_user_create"
+
+

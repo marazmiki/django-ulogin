@@ -3,8 +3,8 @@
 import os
 
 def rel(*x):
-    return os.path.normpath(os.path.join(
-                            os.path.dirname(__file__), *x))
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), '..', *x))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,31 +12,55 @@ TEMPLATE_DEBUG = DEBUG
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': rel('database.sqlite'),  
+        'NAME': rel('test_project.sqlite3'),
     }
 }
 
+ALLOWED_HOSTS = '*'
+
 TIME_ZONE = 'America/Chicago'
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
 USE_I18N = True
 USE_L10N = True
-MEDIA_ROOT = ''
+USE_TZ = True
+
+MEDIA_ROOT = rel('media')
 MEDIA_URL = '/media/'
+
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '+wu=i1paeuqh9%$uw5!wd39#7nrw(^@89@+i)a=n5b6he-f5&p'
+STATICFILES_DIRS = (
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+SECRET_KEY = '-k=yq3(7_(3#0(g+8%6%p0i+x-2-b2_dqf-qji8p7-!i2xmxzf'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+)
+TEMPLATE_DIRS = (
+    rel('templates'),
+)
+
+
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -46,33 +70,23 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-
 ROOT_URLCONF = 'test_project.urls'
 
-TEMPLATE_DIRS = (
-    rel('templates/'),
-)
+# Python dotted path to the WSGI application used by Django's runserver.
+WSGI_APPLICATION = 'test_project.wsgi.application'
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
     'django_ulogin',
-    'customize',
 )
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-)
+
+
 ##
 ## The django-ulogin settings
 ##
@@ -91,3 +105,5 @@ ULOGIN_SCHEMES = {
         'HIDDEN': [],
     }
 }
+
+
