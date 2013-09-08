@@ -1,18 +1,17 @@
 # coding: utf-8
 
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
-from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import login, REDIRECT_FIELD_NAME
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.list import ListView
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
-from django.views.generic.list import ListView
 from django_ulogin import settings
 from django_ulogin.models import ULoginUser
 from django_ulogin.signals import assign
