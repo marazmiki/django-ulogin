@@ -11,6 +11,7 @@ from django.utils.crypto import get_random_string
 from django_ulogin import settings as s
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
+from django.conf import settings
 
 
 try:
@@ -45,7 +46,7 @@ except ImportError:
 
 
 class ULoginUser(models.Model):
-    user = models.ForeignKey(get_user_model(),
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='ulogin_users',
                              verbose_name=_('user'))
     network = models.CharField(_('network'),
