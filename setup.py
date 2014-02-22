@@ -32,6 +32,7 @@ setup(
     install_requires=[
         'Django',
         'requests',
+        'importlib',
         'mock>=0.8.0',
         'six',
     ],

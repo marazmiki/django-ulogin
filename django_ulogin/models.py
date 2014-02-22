@@ -3,21 +3,62 @@
 import uuid
 import sys
 from importlib import import_module
-
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
-from django.utils.crypto import get_random_string
-from django_ulogin import settings as s
-from django.contrib.auth import get_user_model
-from django.utils.timezone import now
 from django.conf import settings
+
+
+try:
+    from django.utils.crypto import get_random_string
+except ImportError:
+    import string
+    import random
+    import hashlib
+    import time
+
+    try:
+        random = random.SystemRandom()
+        using_sysrandom = True
+    except NotImplementedError:
+        import warnings
+        warnings.warn('A secure pseudo-random number generator is not available '
+                      'on your system. Falling back to Mersenne Twister.')
+        using_sysrandom = False
+
+    def get_random_string(length=12, allowed_chars=string.letters + string.digits):
+        if not using_sysrandom:
+            random.seed(hashlib.sha256(("%s%s%s" % (random.getstate(),
+                                                    time.time(),
+                                                    settings.SECRET_KEY)).encode('utf-8')
+                                       ).digest())
+        return ''.join([random.choice(allowed_chars) for i in range(length)])
+
+
+from django_ulogin import settings as s
+
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:
+    from django.contrib.auth.models import User as DjUser
+    get_user_model = lambda: DjUser
+
+try:
+    from django.utils.timezone import now
+except ImportError:
+    from datetime import datetime
+    now = datetime.now
+
+
+try:
+    AUTH_USER_MODEL = settings.AUTH_USER_MODEL
+except AttributeError:
+    AUTH_USER_MODEL = 'auth.User'
 
 
 try:
     from django.utils.module_loading import import_by_path
 except ImportError:
-    # For Django 1.5x
     import six
 
     def import_by_path(dotted_path, error_prefix=''):
@@ -46,7 +87,7 @@ except ImportError:
 
 
 class ULoginUser(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    user = models.ForeignKey(AUTH_USER_MODEL,
                              related_name='ulogin_users',
                              verbose_name=_('user'))
     network = models.CharField(_('network'),
