@@ -1,0 +1,26 @@
+language: python
+
+python:
+  - "2.6"
+  - "2.7"
+
+env:
+  - DJANGO=1.3.1
+  - DJANGO=1.4.8
+  - DJANGO=1.5.5
+  - DJANGO=1.6.2
+
+install:
+  - pip install -q Django==$DJANGO --use-mirrors
+  - pip install -q requests --use-mirrors
+  - pip install -q mock --use-mirrors
+  - python setup.py install
+
+before_script:
+  - pep8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
+  - pyflakes -x W django_ulogin
+
+script:
+  - python tests.py
+
+
