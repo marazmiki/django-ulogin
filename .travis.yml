@@ -11,16 +11,16 @@ env:
   - DJANGO=1.6.2
 
 install:
-  - pip install -q Django==$DJANGO --use-mirrors
-  - pip install -q requests --use-mirrors
-  - pip install -q mock --use-mirrors
-  - pip install -q pep8 --use-mirrors
-  - pip install -q pyflakes --use-mirrors
+  - pip install -q Django==$DJANGO
+  - pip install -q requests
+  - pip install -q mock
+  - pip install -q pep8
+  - pip install -q pyflakes
   - python setup.py install
 
 before_script:
   - pep8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
-  - pyflakes -x W django_ulogin
+  - pyflakes  django_ulogin
 
 script:
   - python tests.py
