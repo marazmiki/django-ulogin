@@ -37,8 +37,7 @@ class LoginRequiredMixin(object):
     """
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request,
-            *args, **kwargs)
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class ULoginMixin(LoginRequiredMixin):
@@ -115,15 +114,12 @@ class PostBackView(CsrfExemptMixin, FormView):
                                         self.request.get_host())
 
         if 'error' in response:
-            return render(self.request, self.error_template_name,
-                    {'json': response})
+            return render(self.request, self.error_template_name, {'json': response})
 
         if self.request.user.is_authenticated():
-            user, identity, registered = \
-            self.handle_authenticated_user(response)
+            user, identity, registered = self.handle_authenticated_user(response)
         else:
-            user, identity, registered = \
-            self.handle_anonymous_user(response)
+            user, identity, registered = self.handle_anonymous_user(response)
 
         assign.send(sender=ULoginUser,
                     user=self.request.user,
@@ -176,4 +172,3 @@ class IdentityDeleteView(ULoginMixin, DeleteView):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'instance': self.get_object()})
-

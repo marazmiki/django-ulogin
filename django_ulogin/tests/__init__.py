@@ -16,18 +16,18 @@ def response(update=None):
     Emulates JSON response from ulogin serivce for test purposes
     """
     data = {
-        'network'    : 'vkontakte',
-        'identity'   : 'http://vk.com/id12345',
-        'uid'        : '12345',
-        'email'      : 'demo@demo.de',
-        'first_name' : 'John',
-        'last_name'  : 'Doe',
-        'bdate'      : '01.01.1970',
-        'sex'        : '2',
-        'photo'      : 'http://www.google.ru/images/srpr/logo3w.png',
-        'photo_big'  : 'http://www.google.ru/images/srpr/logo3w.png',
-        'city'       : 'Washington',
-        'country'    : 'United States',
+        'network': 'vkontakte',
+        'identity': 'http://vk.com/id12345',
+        'uid': '12345',
+        'email': 'demo@demo.de',
+        'first_name': 'John',
+        'last_name': 'Doe',
+        'bdate': '01.01.1970',
+        'sex': '2',
+        'photo': 'http://www.google.ru/images/srpr/logo3w.png',
+        'photo_big': 'http://www.google.ru/images/srpr/logo3w.png',
+        'city': 'Washington',
+        'country': 'United States',
     }
     if update:
         data.update(update)
@@ -84,11 +84,10 @@ class Test(test.TestCase):
         self.assertEquals(0, User.objects.count())
         self.assertEquals(0, ULoginUser.objects.count())
 
-        resp = self.client.post(self.url, data={'token': '31337'})
+        self.client.post(self.url, data={'token': '31337'})
 
         self.assertEquals(1, User.objects.count())
         self.assertEquals(1, ULoginUser.objects.count())
-
 
     def test_assign_user(self):
         """
@@ -96,9 +95,9 @@ class Test(test.TestCase):
         current user will be assigned with ulogin
         """
         username, password = 'demo', 'demo'
-        user = User.objects.create_user(username=username,
-                                   password=password,
-                                   email='demo@demo.de')
+        User.objects.create_user(username=username,
+                                 password=password,
+                                 email='demo@demo.de')
 
         self.assertEquals(1, User.objects.count())
         self.assertEquals(0, ULoginUser.objects.count())
@@ -116,18 +115,17 @@ class Test(test.TestCase):
         """
         self.assertEquals(0, User.objects.count())
         self.assertEquals(0, ULoginUser.objects.count())
-        
+
         self.client.post(self.url, data={'token': '31337'})
         self.client.post(self.url, data={'token': '31337'})
 
         self.assertEquals(1, User.objects.count())
         self.assertEquals(1, ULoginUser.objects.count())
-        
-    def test_user_logged(self):
-        resp = self.client.post(self.url, data={'token': 31331},follow=True)
-        self.assertEquals(200, resp.status_code)
-        self.assertTrue( resp.context['request'].user.is_authenticated() )
 
+    def test_user_logged(self):
+        resp = self.client.post(self.url, data={'token': 31331}, follow=True)
+        self.assertEquals(200, resp.status_code)
+        self.assertTrue(resp.context['request'].user.is_authenticated())
 
     def test_user_authenticated_ulogin_not_exists(self):
         """
@@ -135,11 +133,12 @@ class Test(test.TestCase):
         ulogin not exists
         """
         username, password = 'demo', 'demo'
-        user = User.objects.create_user(username=username,
-                                   password=password,
-                                   email='demo@demo.de')
+        User.objects.create_user(username=username,
+                                 password=password,
+                                 email='demo@demo.de')
+
         def handler(**kwargs):
-            self.assertTrue( kwargs['registered'] )
+            self.assertTrue(kwargs['registered'])
 
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
@@ -156,13 +155,14 @@ class Test(test.TestCase):
         """
         username, password = 'demo', 'demo'
         user = User.objects.create_user(username=username,
-                                   password=password,
-                                   email='demo@demo.de')
+                                        password=password,
+                                        email='demo@demo.de')
+
         def handler(**kwargs):
-            self.assertFalse( kwargs['registered'] )
+            self.assertFalse(kwargs['registered'])
 
         ULoginUser.objects.create(user=user, network=response()['network'],
-            uid=response()['uid'])
+                                  uid=response()['uid'])
 
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
@@ -175,18 +175,16 @@ class Test(test.TestCase):
     def test_user_authenticated_and_some_ulogins(self):
         username, password = 'demo', 'demo'
         user = User.objects.create_user(username=username,
-            password=password,
-            email='demo@demo.de')
+                                        password=password,
+                                        email='demo@demo.de')
         self.client.login(username=username, password=password)
-
         # First account
-        page = self.client.post(self.url, data={'token':'31337'})
+        self.client.post(self.url, data={'token': '31337'})
 
         views.PostBackView.ulogin_response = lambda cls, token, host: response({'network': 'twitter', 'uid': 'django', 'identity': 'http://twitter.com/django'})
 
         # Snd account
-        page = self.client.post(self.url, data={'token':'31337'})
-#        print [f.__dict__ for f in ULoginUser.objects.filter(user=user)]
+        self.client.post(self.url, data={'token': '31337'})
         self.assertEquals(2, ULoginUser.objects.filter(user=user).count())
         self.assertEquals(1, ULoginUser.objects.filter(user=user, network='vkontakte').count())
         self.assertEquals(1, ULoginUser.objects.filter(user=user, network='twitter').count())
@@ -198,14 +196,15 @@ class Test(test.TestCase):
         """
         def handler(**kwargs):
             ''
-            self.assertFalse( kwargs['registered'] )
+            self.assertFalse(kwargs['registered'])
 
         username, password = 'demo', 'demo'
         user = User.objects.create_user(username=username,
-                                   password=password,
-                                   email='demo@demo.de')
-        ULoginUser.objects.create(user=user, network=response()['network'],
-                                         uid=response()['uid'])
+                                        password=password,
+                                        email='demo@demo.de')
+        ULoginUser.objects.create(user=user,
+                                  network=response()['network'],
+                                  uid=response()['uid'])
 
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
@@ -215,16 +214,15 @@ class Test(test.TestCase):
     def test_user_not_authenticated_ulogin_not_exists(self):
         """
         Tests received from view data when user is not authenticated and
-        ulogin not exists 
+        ulogin not exists
         """
         username, password = 'demo', 'demo'
-        user = User.objects.create_user(username=username,
-                                   password=password,
-                                   email='demo@demo.de')
+        User.objects.create_user(username=username,
+                                 password=password,
+                                 email='demo@demo.de')
 
         def handler(**kwargs):
-            ''
-            self.assertTrue( kwargs['registered'] )
+            self.assertTrue(kwargs['registered'])
 
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
@@ -235,7 +233,7 @@ class Test(test.TestCase):
 
     def test_wrong_scheme(self):
         def exception():
-            s = get_scheme('unknown_scheme')
+            get_scheme('unknown_scheme')
         self.assertRaises(SchemeNotFound, exception)
 
     def test_wrong_scheme_in_template(self):

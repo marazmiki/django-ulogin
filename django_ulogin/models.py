@@ -26,7 +26,7 @@ except ImportError:
         last name in the path. Raise ImproperlyConfigured if something goes wrong.
         """
         try:
-           module_path, class_name = dotted_path.rsplit('.', 1)
+            module_path, class_name = dotted_path.rsplit('.', 1)
         except ValueError:
             raise ImproperlyConfigured("%s%s doesn't look like a module path" % (
                                        error_prefix, dotted_path))
@@ -50,9 +50,9 @@ class ULoginUser(models.Model):
                              related_name='ulogin_users',
                              verbose_name=_('user'))
     network = models.CharField(_('network'),
-                              db_index=True,
-                              max_length=255,
-                              choices=s.ALLOWED_PROVIDERS)
+                               db_index=True,
+                               max_length=255,
+                               choices=s.ALLOWED_PROVIDERS)
     identity = models.URLField(_('identity'),
                                db_index=True,
                                max_length=255)
@@ -75,6 +75,7 @@ class ULoginUser(models.Model):
         verbose_name_plural = _('ulogin users')
         unique_together = [('network', 'uid')]
 
+
 def create_user(request, ulogin_response):
     """
     Creates user
@@ -91,5 +92,3 @@ def create_user(request, ulogin_response):
     return User.objects.create_user(username=uuid.uuid4().hex,
                                     password=get_random_string(10, '0123456789abcdefghijklmnopqrstuvwxyz'),
                                     email='')
-
-

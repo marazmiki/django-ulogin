@@ -16,9 +16,6 @@ def get_redirect_url(request):
     if getattr(s, 'REDIRECT_URL'):
         return s.REDIRECT_URL
 
-    # Current URL
-    return_url = request.build_absolute_uri(request.path_info)
-
     # Hack the request.GET
     if FLD not in request.GET:
         get = request.GET.copy()
@@ -49,14 +46,13 @@ def ulogin_widget(context, name="default"):
         'NAME': name,
         'WIDGET_URL': s.WIDGET_URL,
         'CALLBACK': scheme.get('CALLBACK', s.CALLBACK),
-        'DISPLAY': scheme.get('DISPLAY',  s.DISPLAY),
+        'DISPLAY': scheme.get('DISPLAY', s.DISPLAY),
         'PROVIDERS': glue('PROVIDERS'),
         'HIDDEN': glue('HIDDEN'),
         'FIELDS': glue('FIELDS'),
         'OPTIONAL': glue('OPTIONAL'),
         'REDIRECT_URL': get_redirect_url(context['request']),
-        'RAND': ''.join(random.choice(string.ascii_lowercase) \
-            for x in range(5)),
+        'RAND': ''.join(random.choice(string.ascii_lowercase) for x in range(5)),
         'LOAD_SCRIPT_AT_ONCE': s.LOAD_SCRIPT_AT_ONCE
     }
 
@@ -70,4 +66,4 @@ def ulogin_media(context):
         'WIDGET_URL': s.WIDGET_URL,
     }
 register.inclusion_tag('django_ulogin/ulogin_media.html',
-                        takes_context=True)(ulogin_media)
+                       takes_context=True)(ulogin_media)

@@ -23,7 +23,9 @@ class LoginRequiredTest(test.TestCase):
 
         for u in [self.john, self.jane]:
             for i in ['vkontakte', 'twitter', 'facebook']:
-                u.ulogin_users.create(network=i, uid=u.username+i, identity='http://'+i+'/'+u.username+i)
+                u.ulogin_users.create(network=i,
+                                      uid=u.username + i,
+                                      identity='http://' + i + '/' + u.username + i)
         self.client.login(username=self.john.username, password=PASSWORD)
 
     def test_login_required_if_user_not_authenticated(self):
@@ -64,15 +66,13 @@ class TestIdentifyDelete(LoginRequiredTest):
         for account in page.context['identities'].all():
             url = account.get_delete_url()
 
-            page =  self.client.get(url)
+            page = self.client.get(url)
             self.assertEquals(200, page.status_code)
             self.client.post(account.get_delete_url())
-            page =  self.client.get(url)
+            page = self.client.get(url)
             self.assertEquals(404, page.status_code)
-
 
     def test_3(self):
         for foreign_account in ULoginUser.objects.filter(user=self.jane):
-            page =  self.client.get(foreign_account.get_delete_url())
+            page = self.client.get(foreign_account.get_delete_url())
             self.assertEquals(404, page.status_code)
-
