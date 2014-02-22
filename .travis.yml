@@ -13,14 +13,11 @@ env:
 install:
   - pip install -q Django==$DJANGO
   - pip install -q requests
-  - pip install -q mock
-  - pip install -q pep8
-  - pip install -q pyflakes
+  - pip install -q flake8
   - python setup.py install
 
 before_script:
-  - pep8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
-  - pyflakes  django_ulogin
+  - flake8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
 
 script:
   - python tests.py
