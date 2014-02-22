@@ -78,7 +78,7 @@ class PostBackView(CsrfExemptMixin, FormView):
                 logger.debug("Mismatch: %s is not a %s. Take over it!" % (current_user, ulogin_user))
                 ulogin.user = current_user
                 ulogin.save()
-        
+
         return self.request.user, ulogin, registered
 
     def handle_anonymous_user(self, response):

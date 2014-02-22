@@ -95,6 +95,8 @@ DEFAULT_SCHEME = {
     'CALLBACK': CALLBACK,
 }
 
+VERIFY_EMAIL = getattr(s, 'ULOGIN_VERIFY_EMAIL', False)
+
 SCHEMES = getattr(s, 'ULOGIN_SCHEMES', {'default': DEFAULT_SCHEME})
 
 AUTHENTICATION_BACKEND = getattr(s, 'ULOGIN_AUTHENTICATION_BACKEND', 'django.contrib.auth.backends.ModelBackend')

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-Igor Isaev
+# coding: utf-8
 
 from django import template
 from django.core.urlresolvers import reverse as r
