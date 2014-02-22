@@ -10,7 +10,8 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
-settings.configure(ROOT_URLCONF='django_ulogin.tests.urls',
+settings.configure(DEBUG=True,
+                   ROOT_URLCONF='django_ulogin.tests.urls',
                    INSTALLED_APPS=('django.contrib.auth',
                                    'django.contrib.contenttypes',
                                    'django.contrib.sessions',
