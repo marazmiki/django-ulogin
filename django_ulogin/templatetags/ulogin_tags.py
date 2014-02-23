@@ -5,11 +5,16 @@ from django.core.urlresolvers import reverse as r
 from django.contrib.auth import REDIRECT_FIELD_NAME as FLD
 from django_ulogin import settings as s
 from django_ulogin.exceptions import SchemeNotFound
-from django.utils.encoding import smart_unicode
 from django.utils.http import urlquote
 import urllib
 import string
 import random
+
+
+try:
+    from django.utils.encoding import smart_unicode
+except ImportError:
+    from django.utils.encoding import smart_text as smart_unicode
 
 
 def get_redirect_url(request):
