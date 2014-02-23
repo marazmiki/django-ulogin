@@ -3,7 +3,9 @@
 
 from setuptools import setup, find_packages
 import os
+import sys
 
+py_version = sys.version_info
 version = __import__('django_ulogin').get_version()
 readme = os.path.join(os.path.dirname(__file__), 'README.rst')
 
@@ -17,6 +19,16 @@ CLASSIFIERS = [
     'Framework :: Django'
 ]
 
+install_requires = ['Django',
+                    'requests',
+                    'mock>=0.8.0',
+                    'six']
+
+
+if py_version.major == 2 and py_version.minor < 7:
+    install_requires.append('importlib')
+
+
 setup(
     name='django-ulogin',
     author='Mikhail Porokhovnichenko <marazmiki@gmail.com>',
@@ -29,12 +41,7 @@ setup(
     license='MIT license',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
-    install_requires=[
-        'Django',
-        'requests',
-        'mock>=0.8.0',
-        'six',
-    ],
+    install_requires=install_requires,
     packages=find_packages(exclude=['test_project', 'test_project.*']),
     include_package_data=True,
     zip_safe=False)
