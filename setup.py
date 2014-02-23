@@ -25,8 +25,10 @@ install_requires = ['Django',
                     'six']
 
 
-if py_version.major == 2 and py_version.minor < 7:
-    install_requires.append('importlib')
+if isinstance(py_version, tuple):
+    if py_version < (2, 7):
+        #if py_version== 2 and py_version.minor < 7:
+        install_requires.append('importlib')
 
 
 setup(
