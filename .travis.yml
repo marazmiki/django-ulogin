@@ -23,7 +23,7 @@ before_script:
   - flake8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
 
 after_success:
-  coveralls
+  coveralls --config_file=coverage.rc
 
 script:
   - coverage python tests.py
