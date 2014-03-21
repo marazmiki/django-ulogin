@@ -14,13 +14,18 @@ install:
   - pip install -q Django==$DJANGO
   - pip install -q requests
   - pip install -q flake8
-#  - pip install -q importlib
+  - pip install -q python-coveralls coverage
+  - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install importlib; fi"
   - python setup.py install
+
 
 before_script:
   - flake8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
+
+after_success:
+  coveralls
 
 script:
-  - python tests.py
+  - coverage python tests.py
 
 
