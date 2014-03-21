@@ -1,6 +1,16 @@
 django-ulogin
 =============
 
+
+.. image:: https://badge.fury.io/py/django-ulogin.png
+    :target: http://badge.fury.io/py/django-ulogin
+    
+.. image:: https://travis-ci.org/marazmiki/django-ulogin.png?branch=master
+        :target: https://travis-ci.org/marazmiki/django-ulogin
+
+.. image:: https://pypip.in/d/django-ulogin/badge.png
+        :target: https://pypi.python.org/pypi/django-ulogin
+
 Django-ulogin является приложением для социальной аутентификации пользователей с помощью интернет-сервиса `ULOGIN.RU <http://ulogin.ru>`_
 
 
