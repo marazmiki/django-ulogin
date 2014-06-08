@@ -229,8 +229,6 @@ class Test(test.TestCase):
         self.client.post(self.url, data={'token': '31337'})
         assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
 
-    ## scheme
-
     def test_wrong_scheme(self):
         def exception():
             get_scheme('unknown_scheme')
