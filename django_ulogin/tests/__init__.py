@@ -247,7 +247,5 @@ class Test(test.TestCase):
             self.assertIn(i, s)
 
 
-####
-
 from django_ulogin.tests.identities import LoginRequiredTest, TestIdentityList, TestIdentifyDelete  # NOQA
 from django_ulogin.tests.templatetags import ULoginMediaTest  # NOQA
