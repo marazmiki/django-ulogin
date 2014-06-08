@@ -62,9 +62,10 @@ REDIRECT_URL = getattr(s, 'ULOGIN_REDIRECT_URL', None)
 
 LOAD_SCRIPT_AT_ONCE = getattr(s, 'ULOGIN_LOAD_SCRIPT_AT_ONCE', False)
 
-##
-## Default settings
-##
+#
+# Default settings
+#
+
 # Required fields
 FIELDS = getattr(s, 'ULOGIN_FIELDS', ['email'])
 
