@@ -33,3 +33,4 @@ after_success:
 
 script:
   - coverage python tests.py
+  - coverage run --include=django_ulogin/* ./tests.py
