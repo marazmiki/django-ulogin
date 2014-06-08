@@ -3,7 +3,6 @@
 
 from django.conf import settings
 from django import get_version
-from django.core.management import call_command
 import sys
 import os
 
@@ -21,8 +20,19 @@ settings.configure(DEBUG=True,
                                           'NAME': ':MEMORY:'}
                               })
 
-if __name__ == '__main__':
-    command = 'django_ulogin'
+
+def main():
+    from django.test.utils import get_runner
+
+    find_pattern = 'django_ulogin'
+
     if get_version() >= '1.6':
-        command = 'django_ulogin.tests'
-    call_command('test', command)
+        find_pattern += '.tests'
+
+    test_runner = get_runner(settings)(verbosity=2, interactive=True)
+    failed = test_runner.run_tests([find_pattern])
+    sys.exit(failed)
+
+
+if __name__ == '__main__':
+    main()

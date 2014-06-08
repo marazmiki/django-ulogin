@@ -8,6 +8,9 @@ django-ulogin
 .. image:: https://travis-ci.org/marazmiki/django-ulogin.png?branch=master
         :target: https://travis-ci.org/marazmiki/django-ulogin
 
+.. image:: https://coveralls.io/repos/marazmiki/django-ulogin/badge.png?branch=master
+  :target: https://coveralls.io/r/marazmiki/django-ulogin?branch=master
+
 .. image:: https://pypip.in/d/django-ulogin/badge.png
         :target: https://pypi.python.org/pypi/django-ulogin
 

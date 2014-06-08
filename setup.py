@@ -23,6 +23,9 @@ install_requires = ['Django',
                     'requests',
                     'mock>=0.8.0',
                     'six']
+tests_require = ['Django',
+                 'requests',
+                 'six']
 
 
 if isinstance(py_version, tuple):
@@ -45,5 +48,7 @@ setup(
     classifiers=CLASSIFIERS,
     install_requires=install_requires,
     packages=find_packages(exclude=['test_project', 'test_project.*']),
+    test_suite='tests.main',
+    tests_require=tests_require,
     include_package_data=True,
     zip_safe=False)

@@ -1,9 +1,12 @@
 .env/
 .hg/
 .hgignore
+.coverage
 *.swp
 *.pyc
 *.sqlite
 *.sqlite3
 dist/
+htmlcov/
 *.egg-info/
+*.egg/
