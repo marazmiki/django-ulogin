@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from django.conf import settings
+from django import get_version
 from django.core.management import call_command
 import sys
 import os
@@ -21,4 +22,7 @@ settings.configure(DEBUG=True,
                               })
 
 if __name__ == '__main__':
-    call_command('test', 'django_ulogin')
+    command = 'django_ulogin'
+    if get_version() >= '1.6':
+        command = 'django_ulogin.tests'
+    call_command('test', command)
