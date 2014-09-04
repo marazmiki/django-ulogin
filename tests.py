@@ -13,6 +13,11 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 settings.configure(
     DEBUG=True,
     ROOT_URLCONF='django_ulogin.tests.urls',
+    MIDDLEWARE_CLASSES=(
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware', 
+    ),
     INSTALLED_APPS=(
         'django.contrib.auth',
         'django.contrib.contenttypes',
