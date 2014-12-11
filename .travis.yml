@@ -3,18 +3,21 @@ language: python
 python:
   - "2.6"
   - "2.7"
-  - "3.2"
   - "3.3"
+  - "3.4"
+
 
 env:
-  - DJANGO=1.5.10
-  - DJANGO=1.6.7
-  - DJANGO=1.7
+  - DJANGO=1.5.11
+  - DJANGO=1.6.8
+  - DJANGO=1.7.1
+
 
 matrix:
   exclude:
     - python: "2.6"
-      env: DJANGO=1.7
+      env: DJANGO=1.7.1
+
 
 install:
   - pip install -q Django==$DJANGO
@@ -26,10 +29,12 @@ install:
 
 
 before_script:
-  - flake8 --exclude=migrations --ignore=W391,E501,E225 django_ulogin
+  - make flake8
+
 
 after_success:
-  coveralls --config_file=coverage.rc
+  - make coveralls
 
 script:
-  - coverage run --include=django_ulogin/* ./tests.py
+  - make coverage
+

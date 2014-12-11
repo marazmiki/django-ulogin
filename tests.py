@@ -16,7 +16,7 @@ settings.configure(
     MIDDLEWARE_CLASSES=(
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware', 
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
     ),
     INSTALLED_APPS=(
         'django.contrib.auth',

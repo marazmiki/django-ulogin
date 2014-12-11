@@ -16,16 +16,20 @@ class LoginRequiredTest(test.TestCase):
     """
 
     def setUp(self):
-        self.john = User.objects.create_user(username=JOHN, password=PASSWORD, email=EMAIL)
-        self.jane = User.objects.create_user(username=JANE, password=PASSWORD, email=EMAIL)
+        self.john = User.objects.create_user(username=JOHN, password=PASSWORD,
+                                             email=EMAIL)
+        self.jane = User.objects.create_user(username=JANE, password=PASSWORD,
+                                             email=EMAIL)
         self.client = test.Client()
         self.url = reverse('ulogin_identities_list')
 
         for u in [self.john, self.jane]:
             for i in ['vkontakte', 'twitter', 'facebook']:
-                u.ulogin_users.create(network=i,
-                                      uid=u.username + i,
-                                      identity='http://' + i + '/' + u.username + i)
+                u.ulogin_users.create(
+                    network=i,
+                    uid=u.username + i,
+                    identity='http://' + i + '/' + u.username + i
+                )
         self.client.login(username=self.john.username, password=PASSWORD)
 
     def test_login_required_if_user_not_authenticated(self):
@@ -47,7 +51,10 @@ class TestIdentityList(LoginRequiredTest):
 
     def test_2(self):
         page = self.client.get(self.url)
-        self.assertEquals(0, page.context['identities'].filter(user=self.jane).count())
+        self.assertEquals(
+            0,
+            page.context['identities'].filter(user=self.jane).count()
+        )
 
 
 class TestIdentifyDelete(LoginRequiredTest):

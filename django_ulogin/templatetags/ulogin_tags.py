@@ -46,6 +46,7 @@ def ulogin_widget(context, name="default"):
             'NAME': name
         }
     glue = lambda key: ','.join([p for p in scheme.get(key, getattr(s, key))])
+    rand = ''.join(random.choice(string.ascii_lowercase) for x in range(5))
 
     return {
         'NAME': name,
@@ -57,7 +58,7 @@ def ulogin_widget(context, name="default"):
         'FIELDS': glue('FIELDS'),
         'OPTIONAL': glue('OPTIONAL'),
         'REDIRECT_URL': get_redirect_url(context['request']),
-        'RAND': ''.join(random.choice(string.ascii_lowercase) for x in range(5)),
+        'RAND': rand,
         'LOAD_SCRIPT_AT_ONCE': s.LOAD_SCRIPT_AT_ONCE
     }
 

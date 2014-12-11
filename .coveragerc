@@ -1,14 +1,11 @@
 [run]
-source = django_ulogin
 branch = True
-omit =
-    django_ulogin/migrations/*
-
 
 [report]
 exclude_lines =
     pragma: no cover
     def __repr__
+    self.fail\(
     raise AssertionError
     raise NotImplementedError
     if __name__ == .__main__.:

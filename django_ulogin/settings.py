@@ -76,10 +76,13 @@ OPTIONAL = getattr(s, 'ULOGIN_OPTIONAL', [])
 DISPLAY = getattr(s, 'ULOGIN_DISPLAY', 'small')
 
 # Featured providers
-PROVIDERS = getattr(s, 'ULOGIN_PROVIDERS', 'vkontakte,facebook,twitter,google,livejournal'.split(','))
+PROVIDERS = getattr(s, 'ULOGIN_PROVIDERS', ['vkontakte', 'facebook',
+                                            'twitter', 'google',
+                                            'livejournal'])
 
 # Providers in dropdown list
-HIDDEN = getattr(s, 'ULOGIN_HIDDEN', 'yandex,odnoklassniki,mailru,openid'.split(','))
+HIDDEN = getattr(s, 'ULOGIN_HIDDEN', ['yandex', 'odnoklassniki', 'mailru',
+                                      'openid'])
 
 # Callback function
 CALLBACK = getattr(s, 'ULOGIN_CALLBACK', None)
@@ -97,7 +100,9 @@ VERIFY_EMAIL = getattr(s, 'ULOGIN_VERIFY_EMAIL', False)
 
 SCHEMES = getattr(s, 'ULOGIN_SCHEMES', {'default': DEFAULT_SCHEME})
 
-AUTHENTICATION_BACKEND = getattr(s, 'ULOGIN_AUTHENTICATION_BACKEND', 'django.contrib.auth.backends.ModelBackend')
+AUTHENTICATION_BACKEND = getattr(s,
+                                 'ULOGIN_AUTHENTICATION_BACKEND',
+                                 'django.contrib.auth.backends.ModelBackend')
 
 CREATE_USER_CALLBACK = getattr(s, 'ULOGIN_CREATE_USER_CALLBACK', None)
 

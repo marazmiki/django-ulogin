@@ -42,14 +42,16 @@ class Test(test.TestCase):
     def setUp(self):
         self.client = test.Client()
         self.url = reverse('ulogin_postback')
-        views.PostBackView.ulogin_response = lambda cls, token, host: response(None)
+        views.PostBackView.ulogin_response = \
+            lambda cls, token, host: response(None)
 
     def test_has_error(self):
         """
         Tests if in response there is key 'error', in context it there is
         too
         """
-        views.PostBackView.ulogin_response = lambda cls, token, host: response({'error': 'Token expired'})
+        views.PostBackView.ulogin_response = \
+            lambda cls, token, host: response({'error': 'Token expired'})
         resp = self.client.post(self.url, data={'token': '31337'})
         self.assertEquals(200, resp.status_code)
         self.assertTrue('json' in resp.context)
@@ -146,7 +148,8 @@ class Test(test.TestCase):
         self.client.login(username=username, password=password)
         self.client.post(self.url, data={'token': '31337'})
 
-        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
+        assign.disconnect(receiver=handler, sender=ULoginUser,
+                          dispatch_uid='test')
 
     def test_user_authenticated_ulogin_exists(self):
         """
@@ -170,7 +173,8 @@ class Test(test.TestCase):
         self.client.login(username=username, password=password)
         self.client.post(self.url, data={'token': '31337'})
 
-        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
+        assign.disconnect(receiver=handler, sender=ULoginUser,
+                          dispatch_uid='test')
 
     def test_user_authenticated_and_some_ulogins(self):
         username, password = 'demo', 'demo'
@@ -181,13 +185,18 @@ class Test(test.TestCase):
         # First account
         self.client.post(self.url, data={'token': '31337'})
 
-        views.PostBackView.ulogin_response = lambda cls, token, host: response({'network': 'twitter', 'uid': 'django', 'identity': 'http://twitter.com/django'})
+        views.PostBackView.ulogin_response = \
+            lambda cls, token, host: response({'network': 'twitter',
+                                               'uid': 'django',
+                                               'identity': ('http://twitter.'
+                                                            'com/django')})
 
-        # Snd account
+        # Second account
+        qset = ULoginUser.objects.filter(user=user)
         self.client.post(self.url, data={'token': '31337'})
-        self.assertEquals(2, ULoginUser.objects.filter(user=user).count())
-        self.assertEquals(1, ULoginUser.objects.filter(user=user, network='vkontakte').count())
-        self.assertEquals(1, ULoginUser.objects.filter(user=user, network='twitter').count())
+        self.assertEquals(2, qset.count())
+        self.assertEquals(1, qset.filter(network='vkontakte').count())
+        self.assertEquals(1, qset.filter(network='twitter').count())
 
     def test_user_not_authenticated_ulogin_exists(self):
         """
@@ -209,7 +218,8 @@ class Test(test.TestCase):
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
         self.client.post(self.url, data={'token': '31337'})
-        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
+        assign.disconnect(receiver=handler, sender=ULoginUser,
+                          dispatch_uid='test')
 
     def test_user_not_authenticated_ulogin_not_exists(self):
         """
@@ -227,7 +237,8 @@ class Test(test.TestCase):
         assign.connect(receiver=handler, sender=ULoginUser,
                        dispatch_uid='test')
         self.client.post(self.url, data={'token': '31337'})
-        assign.disconnect(receiver=handler, sender=ULoginUser, dispatch_uid='test')
+        assign.disconnect(receiver=handler, sender=ULoginUser,
+                          dispatch_uid='test')
 
     def test_wrong_scheme(self):
         def exception():
@@ -235,15 +246,20 @@ class Test(test.TestCase):
         self.assertRaises(SchemeNotFound, exception)
 
     def test_wrong_scheme_in_template(self):
-        t = Template("""{% load ulogin_tags %}{% ulogin_widget "unknown_scheme" %}""").render(Context({}))
+        t = Template(
+            """{% load ulogin_tags %}{% ulogin_widget "unknown_scheme" %}"""
+        ).render(Context({}))
         self.assertIn('[ulogin]: scheme unknown_scheme not found', t)
 
     def test_default_scheme(self):
         s = get_scheme('default')
 
-        for i in ['PROVIDERS', 'FIELDS', 'CALLBACK', 'HIDDEN', 'OPTIONAL', 'DISPLAY']:
+        for i in ['PROVIDERS', 'FIELDS', 'CALLBACK', 'HIDDEN',
+                  'OPTIONAL', 'DISPLAY']:
             self.assertIn(i, s)
 
 
-from django_ulogin.tests.identities import LoginRequiredTest, TestIdentityList, TestIdentifyDelete  # NOQA
+from django_ulogin.tests.identities import (LoginRequiredTest,   # NOQA
+                                            TestIdentityList,    # NOQA
+                                            TestIdentifyDelete)  # NOQA
 from django_ulogin.tests.templatetags import ULoginMediaTest  # NOQA

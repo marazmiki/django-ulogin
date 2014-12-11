@@ -37,7 +37,9 @@ class LoginRequiredMixin(object):
     """
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(LoginRequiredMixin, self).dispatch(request,
+                                                        *args,
+                                                        **kwargs)
 
 
 class ULoginMixin(LoginRequiredMixin):
@@ -65,16 +67,21 @@ class PostBackView(CsrfExemptMixin, FormView):
         """
         current_user = self.request.user
 
-        ulogin, registered = ULoginUser.objects.get_or_create(uid=response['uid'],
-                                                              network=response['network'],
-                                                              defaults={'identity': response['identity'],
-                                                                        'user': current_user})
+        ulogin, registered = ULoginUser.objects.get_or_create(
+            uid=response['uid'],
+            network=response['network'],
+            defaults={'identity': response['identity'],
+                      'user': current_user})
+
         if not registered:
             ulogin_user = ulogin.user
             logger.debug('uLogin user already exists')
 
             if current_user != ulogin_user:
-                logger.debug("Mismatch: %s is not a %s. Take over it!" % (current_user, ulogin_user))
+                logger.debug(
+                    "Mismatch: %s is not a %s. Take over it!" % (current_user,
+                                                                 ulogin_user)
+                )
                 ulogin.user = current_user
                 ulogin.save()
 
@@ -114,12 +121,15 @@ class PostBackView(CsrfExemptMixin, FormView):
                                         self.request.get_host())
 
         if 'error' in response:
-            return render(self.request, self.error_template_name, {'json': response})
+            return render(self.request, self.error_template_name,
+                          {'json': response})
 
         if self.request.user.is_authenticated():
-            user, identity, registered = self.handle_authenticated_user(response)
+            user, identity, registered = \
+                self.handle_authenticated_user(response)
         else:
-            user, identity, registered = self.handle_anonymous_user(response)
+            user, identity, registered = \
+                self.handle_anonymous_user(response)
 
         assign.send(sender=ULoginUser,
                     user=self.request.user,
@@ -171,4 +181,6 @@ class IdentityDeleteView(ULoginMixin, DeleteView):
         return reverse('ulogin_identities_list')
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'instance': self.get_object()})
+        return render(request, self.template_name,
+                      {'instance': self.get_object()
+                       })
