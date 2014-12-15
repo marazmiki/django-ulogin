@@ -81,6 +81,7 @@ class ULoginUser(models.Model):
         verbose_name = _('ulogin user')
         verbose_name_plural = _('ulogin users')
         unique_together = [('network', 'uid')]
+        app_label = 'django_ulogin'
 
 
 def create_user(request, ulogin_response):
