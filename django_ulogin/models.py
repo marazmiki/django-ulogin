@@ -14,7 +14,11 @@ from django.utils.timezone import now
 from django_ulogin import settings as s
 
 
-AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+AUTH_USER_MODEL = (
+    getattr(settings, 'ULOGIN_USER_MODEL', None) or 
+    getattr(settings, 'AUTH_USER_MODEL', None) or 
+    'auth.User'
+)
 
 
 try:
