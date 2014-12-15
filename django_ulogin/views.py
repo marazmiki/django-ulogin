@@ -22,6 +22,10 @@ import logging
 logger = logging.getLogger('django_ulogin.views')
 
 
+def get_user(request):
+    return getattr(request, settings.REQUEST_USER)
+
+
 class CsrfExemptMixin(object):
     """
     A mixin that provides a way to exempt view class out of CSRF validation
@@ -48,7 +52,7 @@ class ULoginMixin(LoginRequiredMixin):
     authenticated user
     """
     def get_queryset(self):
-        return ULoginUser.objects.filter(user=self.request.user)
+        return ULoginUser.objects.filter(user=get_user(self.request))
 
 
 class PostBackView(CsrfExemptMixin, FormView):
@@ -65,7 +69,7 @@ class PostBackView(CsrfExemptMixin, FormView):
         Handles the ULogin response if user is already
         authenticated
         """
-        current_user = self.request.user
+        current_user = get_user(self.request)
 
         ulogin, registered = ULoginUser.objects.get_or_create(
             uid=response['uid'],
@@ -85,7 +89,7 @@ class PostBackView(CsrfExemptMixin, FormView):
                 ulogin.user = current_user
                 ulogin.save()
 
-        return self.request.user, ulogin, registered
+        return get_user(self.request), ulogin, registered
 
     def handle_anonymous_user(self, response):
         """
@@ -124,7 +128,7 @@ class PostBackView(CsrfExemptMixin, FormView):
             return render(self.request, self.error_template_name,
                           {'json': response})
 
-        if self.request.user.is_authenticated():
+        if get_user(self.request).is_authenticated():
             user, identity, registered = \
                 self.handle_authenticated_user(response)
         else:
@@ -132,7 +136,7 @@ class PostBackView(CsrfExemptMixin, FormView):
                 self.handle_anonymous_user(response)
 
         assign.send(sender=ULoginUser,
-                    user=self.request.user,
+                    user=get_user(self.request),
                     request=self.request,
                     registered=registered,
                     ulogin_user=identity,
