@@ -17,6 +17,7 @@ from django_ulogin.forms import PostBackForm
 import requests
 import json
 import logging
+from utils import import_by_path
 
 
 logger = logging.getLogger('django_ulogin.views')
