@@ -106,6 +106,8 @@ AUTHENTICATION_BACKEND = getattr(s,
 
 CREATE_USER_CALLBACK = getattr(s, 'ULOGIN_CREATE_USER_CALLBACK', None)
 
+REQUEST_USER = getattr(s, 'ULOGIN_REQUEST_USER', 'user')
+
 
 def get_scheme(name):
     try:
