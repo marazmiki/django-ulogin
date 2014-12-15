@@ -105,6 +105,7 @@ AUTHENTICATION_BACKEND = getattr(s,
                                  'django.contrib.auth.backends.ModelBackend')
 
 CREATE_USER_CALLBACK = getattr(s, 'ULOGIN_CREATE_USER_CALLBACK', None)
+LOGIN_CALLBACK = getattr(s, 'ULOGIN_LOGIN_CALLBACK', None)
 
 REQUEST_USER = getattr(s, 'ULOGIN_REQUEST_USER', 'user')
 
