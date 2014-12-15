@@ -3,7 +3,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
-from django.contrib.auth import REDIRECT_FIELD_NAME, login
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
@@ -24,6 +24,12 @@ logger = logging.getLogger('django_ulogin.views')
 
 def get_user(request):
     return getattr(request, settings.REQUEST_USER)
+
+
+if settings.LOGIN_CALLBACK:
+    login = import_by_path(settings.LOGIN_CALLBACK)
+else:
+    from django.contrib.auth import login
 
 
 class CsrfExemptMixin(object):
