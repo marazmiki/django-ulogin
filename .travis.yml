@@ -8,15 +8,15 @@ python:
 
 
 env:
-  - DJANGO=1.5.11
-  - DJANGO=1.6.8
-  - DJANGO=1.7.1
+  - DJANGO=1.5.12
+  - DJANGO=1.6.9
+  - DJANGO=1.7.2
 
 
 matrix:
   exclude:
     - python: "2.6"
-      env: DJANGO=1.7.1
+      env: DJANGO=1.7.2
 
 
 install:
