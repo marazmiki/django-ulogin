@@ -4,12 +4,15 @@ django-ulogin
 
 .. image:: https://badge.fury.io/py/django-ulogin.png
     :target: http://badge.fury.io/py/django-ulogin
-    
+    :alt:
+
 .. image:: https://travis-ci.org/marazmiki/django-ulogin.png?branch=master
     :target: https://travis-ci.org/marazmiki/django-ulogin
+    :alt: Travis CI build status
 
 .. image:: https://coveralls.io/repos/marazmiki/django-ulogin/badge.png?branch=master
     :target: https://coveralls.io/r/marazmiki/django-ulogin?branch=master
+    :alt: Code coverage percentage
 
 .. image:: https://pypip.in/d/django-ulogin/badge.png
     :target: https://pypi.python.org/pypi/django-ulogin
@@ -18,6 +21,10 @@ django-ulogin
 .. image:: https://pypip.in/wheel/django-ulogin/badge.svg
     :target: https://pypi.python.org/pypi/django-ulogin/
     :alt: Wheel Status
+
+.. image:: https://pypip.in/py_versions/django-ulogin/badge.png
+    :target: https://pypi.python.org/pypi/django-ulogin/
+    :alt: Supported Python versions
 
 
 
