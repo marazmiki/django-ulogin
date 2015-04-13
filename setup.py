@@ -36,13 +36,16 @@ if isinstance(py_version, tuple):
         install_requires.append('importlib')
 
 
+dl_url = 'https://github.com/marazmiki/django-ulogin/archive/master.zip'
+
+
 setup(
     name='django-ulogin',
     author='Mikhail Porokhovnichenko <marazmiki@gmail.com>',
     version=version,
     author_email='marazmiki@gmail.com',
     url='https://github.com/marazmiki/django-ulogin',
-    download_url='https://github.com/marazmiki/django-ulogin/archive/master.zip',
+    download_url=dl_url,
     description='User social authentication with ulogin.ru service',
     long_description=open(readme).read(),
     license='MIT license',
