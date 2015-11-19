@@ -150,10 +150,15 @@ class PostBackView(CsrfExemptMixin, FormView):
         """
         Makes a request to ULOGIN
         """
-        response = requests.get(settings.TOKEN_URL, params={'token': token, 'host': host})
+        response = requests.get(
+            settings.TOKEN_URL,
+            params={
+                'token': token,
+                'host': host
+            })
         content = response.content
 
-        if sys.version_info >= (3,0):
+        if sys.version_info >= (3, 0):
             content = content.decode('utf8')
 
         return json.loads(content)
