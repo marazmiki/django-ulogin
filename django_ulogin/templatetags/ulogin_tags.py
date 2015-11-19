@@ -28,8 +28,11 @@ def get_redirect_url(request):
             FLD: request.build_absolute_uri(request.path_info)
         })
         request.GET = get
-        
-    unquote = urllib.unquote if hasattr(urllib,'unquote') else urllib.parse.unquote
+
+    if hasattr(urllib, 'unquote'):
+        unquote = urllib.unquote
+    else:
+        unquote = urllib.parse.unquote
 
     return urlquote("{request_url}?{query_string}".format(
         request_url=request.build_absolute_uri(r('ulogin_postback')),
