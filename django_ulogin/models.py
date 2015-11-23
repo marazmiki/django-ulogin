@@ -12,44 +12,14 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 from django_ulogin import settings as s
+from django_ulogin.utils import import_by_path
 
 
-AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
-
-
-try:
-    from django.utils.module_loading import import_by_path
-except ImportError:
-
-    def import_by_path(dotted_path, error_prefix=''):
-        """
-        Import a dotted module path and return the attribute/class
-        designated by the last name in the path. Raise ImproperlyConfigured
-        if something goes wrong.
-        """
-        try:
-            module_path, class_name = dotted_path.rsplit('.', 1)
-        except ValueError:
-            raise ImproperlyConfigured(
-                "%s%s doesn't look like a module path" % (error_prefix,
-                                                          dotted_path)
-            )
-        try:
-            module = import_module(module_path)
-        except ImportError as e:
-            msg = '%sError importing module %s: "%s"' % (
-                error_prefix, module_path, e)
-            six.reraise(ImproperlyConfigured, ImproperlyConfigured(msg),
-                        sys.exc_info()[2])
-        try:
-            attr = getattr(module, class_name)
-        except AttributeError:
-            raise ImproperlyConfigured(
-                '%sModule "%s" does not define a "%s" attribute/class' % (
-                    error_prefix, module_path, class_name
-                )
-            )
-        return attr
+AUTH_USER_MODEL = (
+    getattr(settings, 'ULOGIN_USER_MODEL', None) or 
+    getattr(settings, 'AUTH_USER_MODEL', None) or 
+    'auth.User'
+)
 
 
 class ULoginUser(models.Model):
@@ -81,6 +51,7 @@ class ULoginUser(models.Model):
         verbose_name = _('ulogin user')
         verbose_name_plural = _('ulogin users')
         unique_together = [('network', 'uid')]
+        app_label = 'django_ulogin'
 
 
 def create_user(request, ulogin_response):
