@@ -17,6 +17,7 @@ from django_ulogin.forms import PostBackForm
 import requests
 import json
 import logging
+import sys
 
 
 logger = logging.getLogger('django_ulogin.views')
@@ -149,10 +150,18 @@ class PostBackView(CsrfExemptMixin, FormView):
         """
         Makes a request to ULOGIN
         """
-        return json.loads(requests.get(settings.TOKEN_URL, params={
-            'token': token,
-            'host': host
-        }).content)
+        response = requests.get(
+            settings.TOKEN_URL,
+            params={
+                'token': token,
+                'host': host
+            })
+        content = response.content
+
+        if sys.version_info >= (3, 0):
+            content = content.decode('utf8')
+
+        return json.loads(content)
 
 
 class CrossDomainView(TemplateView):
