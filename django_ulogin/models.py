@@ -1,8 +1,5 @@
 # coding: utf-8
 
-import uuid
-import sys
-from importlib import import_module
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
@@ -12,46 +9,18 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 from django_ulogin import settings as s
+from django_ulogin.utils import import_by_path
+import uuid
 
 
-AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+AUTH_USER_MODEL = (
+    getattr(settings, 'ULOGIN_USER_MODEL', None) or
+    getattr(settings, 'AUTH_USER_MODEL', None) or
+    'auth.User'
+)
 
 
-try:
-    from django.utils.module_loading import import_by_path
-except ImportError:
-
-    def import_by_path(dotted_path, error_prefix=''):
-        """
-        Import a dotted module path and return the attribute/class
-        designated by the last name in the path. Raise ImproperlyConfigured
-        if something goes wrong.
-        """
-        try:
-            module_path, class_name = dotted_path.rsplit('.', 1)
-        except ValueError:
-            raise ImproperlyConfigured(
-                "%s%s doesn't look like a module path" % (error_prefix,
-                                                          dotted_path)
-            )
-        try:
-            module = import_module(module_path)
-        except ImportError as e:
-            msg = '%sError importing module %s: "%s"' % (
-                error_prefix, module_path, e)
-            six.reraise(ImproperlyConfigured, ImproperlyConfigured(msg),
-                        sys.exc_info()[2])
-        try:
-            attr = getattr(module, class_name)
-        except AttributeError:
-            raise ImproperlyConfigured(
-                '%sModule "%s" does not define a "%s" attribute/class' % (
-                    error_prefix, module_path, class_name
-                )
-            )
-        return attr
-
-
+@six.python_2_unicode_compatible
 class ULoginUser(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL,
                              related_name='ulogin_users',
@@ -70,7 +39,7 @@ class ULoginUser(models.Model):
                                         editable=False,
                                         default=now)
 
-    def __unicode__(self):
+    def __str__(self):
         return six.text_type(self.user)
 
     @models.permalink
@@ -78,6 +47,7 @@ class ULoginUser(models.Model):
         return 'ulogin_identities_delete', [self.pk]
 
     class Meta(object):
+        app_label = 'django_ulogin'
         verbose_name = _('ulogin user')
         verbose_name_plural = _('ulogin users')
         unique_together = [('network', 'uid')]
@@ -90,14 +60,18 @@ def create_user(request, ulogin_response):
     # Custom behaviour
     if s.CREATE_USER_CALLBACK is not None:
         callback = import_by_path(s.CREATE_USER_CALLBACK)
+
         if callable(callback):
-            return callback(request=request, ulogin_response=ulogin_response)
+            return callback(request=request,
+                            ulogin_response=ulogin_response)
+
         raise ImproperlyConfigured(
             "The ULOGIN_CREATE_USER_CALLBACK isn't a callable"
         )
 
     # Default behavior
     User = get_user_model()
+
     return User.objects.create_user(
         username=uuid.uuid4().hex,
         password=get_random_string(10, '0123456789abcdefghijklmnopqrstuvwxyz'),

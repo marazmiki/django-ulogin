@@ -3,7 +3,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
-from django.contrib.auth import REDIRECT_FIELD_NAME, login
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
@@ -14,6 +14,7 @@ from django_ulogin import settings
 from django_ulogin.models import ULoginUser, create_user
 from django_ulogin.signals import assign
 from django_ulogin.forms import PostBackForm
+from django_ulogin.utils import import_by_path
 import requests
 import json
 import logging
@@ -21,6 +22,16 @@ import sys
 
 
 logger = logging.getLogger('django_ulogin.views')
+
+
+def get_user(request):
+    return getattr(request, settings.REQUEST_USER)
+
+
+if settings.LOGIN_CALLBACK:
+    login = import_by_path(settings.LOGIN_CALLBACK)
+else:
+    from django.contrib.auth import login
 
 
 class CsrfExemptMixin(object):
@@ -49,7 +60,7 @@ class ULoginMixin(LoginRequiredMixin):
     authenticated user
     """
     def get_queryset(self):
-        return ULoginUser.objects.filter(user=self.request.user)
+        return ULoginUser.objects.filter(user=get_user(self.request))
 
 
 class PostBackView(CsrfExemptMixin, FormView):
@@ -66,7 +77,7 @@ class PostBackView(CsrfExemptMixin, FormView):
         Handles the ULogin response if user is already
         authenticated
         """
-        current_user = self.request.user
+        current_user = get_user(self.request)
 
         ulogin, registered = ULoginUser.objects.get_or_create(
             uid=response['uid'],
@@ -86,7 +97,7 @@ class PostBackView(CsrfExemptMixin, FormView):
                 ulogin.user = current_user
                 ulogin.save()
 
-        return self.request.user, ulogin, registered
+        return get_user(self.request), ulogin, registered
 
     def handle_anonymous_user(self, response):
         """
@@ -125,7 +136,7 @@ class PostBackView(CsrfExemptMixin, FormView):
             return render(self.request, self.error_template_name,
                           {'json': response})
 
-        if self.request.user.is_authenticated():
+        if get_user(self.request).is_authenticated():
             user, identity, registered = \
                 self.handle_authenticated_user(response)
         else:
@@ -133,7 +144,7 @@ class PostBackView(CsrfExemptMixin, FormView):
                 self.handle_anonymous_user(response)
 
         assign.send(sender=ULoginUser,
-                    user=self.request.user,
+                    user=get_user(self.request),
                     request=self.request,
                     registered=registered,
                     ulogin_user=identity,

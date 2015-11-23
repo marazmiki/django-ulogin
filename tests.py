@@ -2,7 +2,6 @@
 # coding: utf-8
 
 from django.conf import settings
-from django import get_version
 import sys
 import os
 
@@ -39,10 +38,7 @@ def main():
     if hasattr(django, 'setup'):
         django.setup()
 
-    find_pattern = 'django_ulogin'
-
-    if get_version() >= '1.6':
-        find_pattern += '.tests'
+    find_pattern = 'django_ulogin.tests'
 
     test_runner = get_runner(settings)(verbosity=2, interactive=True)
     failed = test_runner.run_tests([find_pattern])

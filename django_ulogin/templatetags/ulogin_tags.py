@@ -34,7 +34,7 @@ def get_redirect_url(request):
     else:
         unquote = urllib.parse.unquote
 
-    return urlquote("{request_url}?{query_string}".format(
+    return urlquote(u"{request_url}?{query_string}".format(
         request_url=request.build_absolute_uri(r('ulogin_postback')),
         query_string=smart_unicode(unquote(request.GET.urlencode()))
     ))
@@ -79,5 +79,7 @@ def ulogin_media(context):
     return {
         'WIDGET_URL': s.WIDGET_URL,
     }
+
+
 register.inclusion_tag('django_ulogin/ulogin_media.html',
                        takes_context=True)(ulogin_media)
