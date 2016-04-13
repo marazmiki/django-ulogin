@@ -14,5 +14,6 @@
         {% else %}
             <div id="uLogin-{{ RAND }}" data-ulogin="display={{ DISPLAY }};fields={{ FIELDS }};optional={{ OPTIONAL }};providers={{ PROVIDERS }};hidden={{ HIDDEN }};redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %};callback={{ CALLBACK }}{% endif %}"></div>
         {% endif %}
+        <script>(typeof(uLogin)!='undefined')&&(uLogin.customInit('uLogin-{{ RAND }}'));</script>
     {% endif %}
 {% endspaceless %}
