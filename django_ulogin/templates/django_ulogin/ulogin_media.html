@@ -1,1 +1,1 @@
-<script src="{{ WIDGET_URL }}"></script>
+<script {%if RAND %}onload="uLogin.customInit('uLogin-{{ RAND }}')" {% endif %}src="{{ WIDGET_URL }}"></script>
