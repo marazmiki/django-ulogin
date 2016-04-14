@@ -75,7 +75,7 @@ register.inclusion_tag('django_ulogin/ulogin_widget.html',
                        takes_context=True)(ulogin_widget)
 
 
-def ulogin_media(context,rand=None):
+def ulogin_media(context, rand=None):
     return {
         'WIDGET_URL': s.WIDGET_URL,
         'RAND': rand
