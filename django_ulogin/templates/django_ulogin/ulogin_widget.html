@@ -5,7 +5,7 @@
     {% if SCHEME_NOT_FOUND %}
         <div>[ulogin]: scheme {{ NAME }} not found</div>
     {% else %}
-        {% ulogin_media %}
+        {% ulogin_media RAND %}
 
         {% if DISPLAY == 'button' %}
             <a  id="uLogin-b{{ RAND }}" href="#" data-ulogin="display=window;fields={{ FIELDS }};optional={{ OPTIONAL }};providers={{ PROVIDERS }};hidden={{ HIDDEN }};redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %};callback={{ CALLBACK }}{% endif %}">
@@ -14,5 +14,6 @@
         {% else %}
             <div id="uLogin-{{ RAND }}" data-ulogin="display={{ DISPLAY }};fields={{ FIELDS }};optional={{ OPTIONAL }};providers={{ PROVIDERS }};hidden={{ HIDDEN }};redirect_uri={{ REDIRECT_URL }}{% if CALLBACK %};callback={{ CALLBACK }}{% endif %}"></div>
         {% endif %}
+        <script>(typeof(uLogin)!='undefined')&&(uLogin.customInit('uLogin-{{ RAND }}'));</script>
     {% endif %}
 {% endspaceless %}
