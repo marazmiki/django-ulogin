@@ -159,7 +159,7 @@ class PostBackView(CsrfExemptMixin, FormView):
         )
         content = response.content
 
-        if sys.version_info >= (3,0):
+        if sys.version_info >= (3, 0):
             content = content.decode('utf8')
 
         return json.loads(content)
