@@ -15,10 +15,10 @@ flake8:
 
 
 coverage:
-	make clean
 	python setup.py develop
 	coverage run --rcfile=.coveragerc --include=${project_name}/* setup.py test
 	coverage report
+	rm -rf htmlcov
 	coverage html
 	python setup.py develop --uninstall
 
@@ -26,9 +26,8 @@ coverage:
 clean:
 	python setup.py develop --uninstall
 	rm -rf *.egg-info *.egg
-	rm -rf htmlcov
 	rm -f .coverage
-	find . -name "*.pyc" -exec rm -rf {} \;
+	find ${project_name} -name "*.pyc" -exec rm -rf {} \;
 
 
 coveralls:
