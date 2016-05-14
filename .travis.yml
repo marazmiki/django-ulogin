@@ -9,7 +9,7 @@ python:
 
 env:
   - DJANGO=1.5.12
-  - DJANGO=1.6.9
+  - DJANGO=1.6.11
   - DJANGO=1.7.8
   - DJANGO=1.8.2
 
@@ -17,6 +17,9 @@ env:
 matrix:
   exclude:
     - python: "2.6"
+      env: DJANGO=1.7.7
+    - python: "2.6"
+      env: DJANGO=1.8
       env: DJANGO=1.7.8
     - python: "2.6"
       env: DJANGO=1.8.2
@@ -24,9 +27,7 @@ matrix:
 
 
 install:
-  - pip install -q Django==$DJANGO
-  - pip install -q requests
-  - pip install -q flake8
+  - pip install -q Django==$DJANGO requests flake8
   - pip install -q python-coveralls coverage
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install importlib; fi"
   - python setup.py install
@@ -41,4 +42,3 @@ after_success:
 
 script:
   - make coverage
-

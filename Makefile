@@ -11,7 +11,7 @@ release:
 
 
 flake8:
-	flake8 --max-complexity 12 ${project_name} setup.py tests.py
+	flake8 ${project_name} setup.py tests.py
 
 
 coverage:

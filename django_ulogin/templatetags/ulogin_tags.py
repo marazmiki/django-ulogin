@@ -29,9 +29,14 @@ def get_redirect_url(request):
         })
         request.GET = get
 
+    if hasattr(urllib, 'unquote'):
+        unquote = urllib.unquote
+    else:
+        unquote = urllib.parse.unquote
+
     return urlquote("{request_url}?{query_string}".format(
         request_url=request.build_absolute_uri(r('ulogin_postback')),
-        query_string=smart_unicode(urllib.unquote(request.GET.urlencode()))
+        query_string=smart_unicode(unquote(request.GET.urlencode()))
     ))
 
 
@@ -45,7 +50,10 @@ def ulogin_widget(context, name="default"):
             'SCHEME_NOT_FOUND': True,
             'NAME': name
         }
-    glue = lambda key: ','.join([p for p in scheme.get(key, getattr(s, key))])
+
+    def glue(key):
+        return ','.join([p for p in scheme.get(key, getattr(s, key))])
+
     rand = ''.join(random.choice(string.ascii_lowercase) for x in range(5))
 
     return {
