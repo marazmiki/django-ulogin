@@ -26,8 +26,6 @@ install_requires = ['Django',
 tests_require = ['Django',
                  'requests',
                  'tox',
-                 'sphinx',
-                 'sphinx-autobuild',
                  'six']
 
 
