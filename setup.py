@@ -3,9 +3,7 @@
 
 from setuptools import setup, find_packages
 import os
-import sys
 
-py_version = sys.version_info
 version = __import__('django_ulogin').get_version()
 readme = os.path.join(os.path.dirname(__file__), 'README.rst')
 
@@ -17,23 +15,20 @@ CLASSIFIERS = [
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
     'Framework :: Django'
 ]
 
 install_requires = ['Django',
                     'requests',
-                    # 'mock>=0.8.0',
                     'six']
 tests_require = ['Django',
                  'requests',
+                 'tox',
+                 'sphinx',
+                 'sphinx-livereload',
                  'six']
-
-
-if isinstance(py_version, tuple):
-    if py_version < (2, 7):
-        install_requires.append('importlib')
 
 
 dl_url = 'https://github.com/marazmiki/django-ulogin/archive/master.zip'
