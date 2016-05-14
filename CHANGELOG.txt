@@ -5,6 +5,7 @@
 -----
 
 * Исправлена ошибка urllib.unquote в Py3 (спасибо @mcd-php)
+* Исправленоо предупреждение RemovedInDjango19Warning (спасибо @sdfsdhgjkbmnmxc)
 
 0.2.3
 -----
