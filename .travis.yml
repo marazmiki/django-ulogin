@@ -1,35 +1,20 @@
 language: python
 
 python:
-  - "2.6"
   - "2.7"
-  - "3.3"
   - "3.4"
+  - "3.5"
 
 
 env:
-  - DJANGO=1.5.12
-  - DJANGO=1.6.11
-  - DJANGO=1.7.8
-  - DJANGO=1.8.2
-
-
-matrix:
-  exclude:
-    - python: "2.6"
-      env: DJANGO=1.7.7
-    - python: "2.6"
-      env: DJANGO=1.8
-      env: DJANGO=1.7.8
-    - python: "2.6"
-      env: DJANGO=1.8.2
-
+  - DJANGO=1.7.11
+  - DJANGO=1.8.8
+  - DJANGO=1.9.6
 
 
 install:
   - pip install -q Django==$DJANGO requests flake8
   - pip install -q python-coveralls coverage
-  - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install importlib; fi"
   - python setup.py install
 
 
