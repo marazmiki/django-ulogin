@@ -18,6 +18,7 @@ coverage:
 	make clean
 	python setup.py develop
 	coverage run --rcfile=.coveragerc --include=${project_name}/* setup.py test
+	coverage report
 	coverage html
 	python setup.py develop --uninstall
 
