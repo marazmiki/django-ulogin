@@ -12,6 +12,12 @@ django-ulogin
     :target: https://coveralls.io/r/marazmiki/django-ulogin?branch=master
     :alt: Code coverage percentage
 
+.. image:: https://readthedocs.org/projects/django-ulogin/badge/?version=latest
+    :target: https://django-ulogin.readthedocs.io/ru/latest/?badge=latest
+    :alt: Documentation Status
+                
+
+
 
 Описание
 --------
@@ -23,4 +29,4 @@ django-ulogin
     Создатели приложения никак не связаны с интернет-сервисом `uLogin <https://ulogin.ru>`_, поэтому все вопросы, касающиеся непосредственно работы сервиса, а не этого приложения, просьба отправлять на `team@ulogin.ru <team@ulogin.ru>`_.
 
 
-Подробная документация проекта доступна на `Read the Docs<https://django-ulogin.readthedocs.org>`_.
+Подробная документация проекта доступна на `Read the Docs <https://django-ulogin.readthedocs.org/>`_.
