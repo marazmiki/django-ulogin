@@ -8,8 +8,10 @@
 *.pyc
 *.sqlite
 *.sqlite3
+docs/build/
 build/
 dist/
 htmlcov/
+
 *.egg-info/
 *.egg/
