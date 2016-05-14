@@ -27,7 +27,7 @@ tests_require = ['Django',
                  'requests',
                  'tox',
                  'sphinx',
-                 'sphinx-livereload',
+                 'sphinx-autobuild',
                  'six']
 
 
