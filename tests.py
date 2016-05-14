@@ -9,9 +9,21 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
+class DisableMigrations:
+    """
+    Migration disable class
+    """
+    def __contains__(self, item):
+        return True
+
+    def __getitem__(self, item):
+        return 'no_migrations_here'
+
+
 settings.configure(
-    DEBUG=True,
+    DEBUG=False,
     ROOT_URLCONF='django_ulogin.tests.urls',
+    MIGRATION_MODULES=DisableMigrations(),
     MIDDLEWARE_CLASSES=(
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -23,6 +35,9 @@ settings.configure(
         'django.contrib.sessions',
         'django_ulogin',
     ),
+    PASSWORD_HASHERS=[
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    ],
     DATABASES={
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
