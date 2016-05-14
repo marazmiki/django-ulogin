@@ -24,7 +24,7 @@ CLASSIFIERS = [
 
 install_requires = ['Django',
                     'requests',
-                    'mock>=0.8.0',
+                    # 'mock>=0.8.0',
                     'six']
 tests_require = ['Django',
                  'requests',
