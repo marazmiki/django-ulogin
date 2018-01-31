@@ -43,7 +43,13 @@ settings.configure(
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':MEMORY:'
         }
-    })
+    },
+    TEMPLATES=[
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': True,
+        },
+    ])
 
 
 def main():
