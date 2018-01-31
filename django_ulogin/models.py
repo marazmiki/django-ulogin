@@ -24,7 +24,8 @@ AUTH_USER_MODEL = (
 class ULoginUser(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL,
                              related_name='ulogin_users',
-                             verbose_name=_('user'))
+                             verbose_name=_('user'),
+                             on_delete=models.CASCADE)
     network = models.CharField(_('network'),
                                db_index=True,
                                max_length=255,
