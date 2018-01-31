@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from django.conf import settings
+import django
 import sys
 import os
 
@@ -17,7 +18,7 @@ class DisableMigrations:
         return True
 
     def __getitem__(self, item):
-        return 'no_migrations_here'
+        return 'no_migrations_here' if django.VERSION < (1, 11) else None
 
 
 settings.configure(
