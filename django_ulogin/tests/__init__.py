@@ -8,6 +8,7 @@ from django_ulogin.exceptions import SchemeNotFound
 from django_ulogin.models import ULoginUser
 from django_ulogin.signals import assign
 from django_ulogin.settings import get_scheme
+from django_ulogin.compat import user_is_authenticated
 try:
     from django.core.urlresolvers import reverse
 except ImportError:
@@ -130,7 +131,7 @@ class Test(test.TestCase):
     def test_user_logged(self):
         resp = self.client.post(self.url, data={'token': 31331}, follow=True)
         self.assertEquals(200, resp.status_code)
-        self.assertTrue(resp.context['request'].user.is_authenticated())
+        self.assertTrue(user_is_authenticated(resp.context['request'].user))
 
     def test_user_authenticated_ulogin_not_exists(self):
         """
