@@ -1,11 +1,14 @@
 # coding: utf-8
 
 from django import template
-from django.core.urlresolvers import reverse as r
 from django.contrib.auth import REDIRECT_FIELD_NAME as FLD
 from django_ulogin import settings as s
 from django_ulogin.exceptions import SchemeNotFound
 from django.utils.http import urlquote
+try:
+    from django.core.urlresolvers import reverse as r
+except ImportError:
+    from django.urls import reverse as r
 import urllib
 import string
 import random

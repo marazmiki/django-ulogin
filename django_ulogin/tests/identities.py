@@ -2,8 +2,11 @@
 
 from django import test
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django_ulogin.models import ULoginUser
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 
 
 JOHN, PASSWORD, EMAIL = 'john', 'demo', 'user@example.com'

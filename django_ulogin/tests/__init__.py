@@ -2,13 +2,16 @@
 
 from django import test
 from django.template import Template, Context
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django_ulogin import views
 from django_ulogin.exceptions import SchemeNotFound
 from django_ulogin.models import ULoginUser
 from django_ulogin.signals import assign
 from django_ulogin.settings import get_scheme
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 
 
 def response(update=None):
