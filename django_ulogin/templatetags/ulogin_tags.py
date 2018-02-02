@@ -73,6 +73,7 @@ def ulogin_widget(context, name="default"):
         'LOAD_SCRIPT_AT_ONCE': s.LOAD_SCRIPT_AT_ONCE
     }
 
+
 register = template.Library()
 register.inclusion_tag('django_ulogin/ulogin_widget.html',
                        takes_context=True)(ulogin_widget)
