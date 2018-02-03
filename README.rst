@@ -2,21 +2,25 @@ django-ulogin
 =============
 
 
-.. image:: https://badge.fury.io/py/django-ulogin.png
-    :target: http://badge.fury.io/py/django-ulogin
-    :alt:
+.. image:: https://travis-ci.org/marazmiki/django-ulogin.svg?branch=master
+     :target: https://travis-ci.org/marazmiki/django-ulogin
+     :alt: Travis CI building status
 
-.. image:: https://travis-ci.org/marazmiki/django-ulogin.png?branch=master
+.. image:: https://coveralls.io/repos/github/marazmiki/django-ulogin/badge.svg?branch=master
+     :target: https://coveralls.io/github/marazmiki/django-ulogin?branch=master
+     :alt: Code coverage status
 
-.. image:: https://coveralls.io/repos/marazmiki/django-ulogin/badge.png?branch=master
-    :target: https://coveralls.io/r/marazmiki/django-ulogin?branch=master
-    :alt: Code coverage percentage
+.. image:: https://badge.fury.io/py/django-ulogin.svg
+     :target: http://badge.fury.io/py/django-ulogin
+     :alt: PyPI release
+
+.. image:: https://img.shields.io/pypi/pyversions/django-ulogin.svg
+     :target: https://img.shields.io/pypi/pyversions/django-ulogin.svg
+     :alt: Supported Python versions
 
 .. image:: https://readthedocs.org/projects/django-ulogin/badge/?version=latest
-    :target: https://django-ulogin.readthedocs.io/ru/latest/?badge=latest
-    :alt: Documentation Status
-                
-
+     :target: https://django-ulogin.readthedocs.io/ru/latest/?badge=latest
+     :alt: Documentation Status
 
 
 Описание

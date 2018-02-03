@@ -1,13 +1,12 @@
-include AUTHORS
-include LICENSE
-include README.rst
-include CHANGELOG.txt
 include setup.py
+exclude AUTHORS
+exclude CHANGELOG.txt
+exclude LICENSE
 exclude MANIFEST.in
+exclude README.rst
 recursive-include django_ulogin/ *
 recursive-include django_ulogin/locale *
 recursive-include django_ulogin/templates *
-recursive-include django_ulogin/static *
-recursive-include docs *
+recursive-exclude docs *
 recursive-exclude * *.pyc
 recursive-exclude test_project *
