@@ -10,6 +10,6 @@
 * Антон "`Forever-Young <https://github.com/Forever-Young>`_" Новосёлов <anton.novosyolov@gmail.com>
 * Денис "`dkopitsa <https://github.com/dkopitsa>`_" Копица <denis.kopitsa@gmail.com>
 * Максим "`sdfsdhgjkbmnmxc <https://github.com/sdfsdhgjkbmnmxc>`_" Оранский <maxim.oransky@gmail.com>
+* Максим "`maxpolezhaev <https://github.com/maxpolezhaev>`_ " Полежаев <m.polejaev@gmail.com>
 * `Haos616 <https://github.com/Haos616>`_ <Haos616@Gmail.com>
 * `mcd-php <https://github.com/mcd-php>`_
-

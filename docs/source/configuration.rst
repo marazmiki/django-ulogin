@@ -44,6 +44,7 @@
     а требуемый контекст-процессор располагался в ``django.core.context_processors.request``. Таким образом,
     подключение выглядит примерно следующим образом:
 
+    .. code:: python
 
         TEMPLATE_CONTEXT_PROCESSORS = (
             # ...
