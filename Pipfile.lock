@@ -1,0 +1,32 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "7f56d2b8710cc253c7ac5f4cbc6ae0260ad79b6fd990ceaca39b1c293b33d265"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {},
+    "develop": {
+        "bumpversion": {
+            "version": "==0.5.3"
+        },
+        "flake8": {
+            "version": "==3.5.0"
+        },
+        "mccabe": {
+            "version": "==0.6.1"
+        },
+        "pycodestyle": {
+            "version": "==2.3.1"
+        },
+        "pyflakes": {
+            "version": "==1.6.0"
+        }
+    }
+}
