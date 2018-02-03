@@ -1,5 +1,4 @@
-# coding: utf-8
-
+import uuid
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
@@ -10,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 from django_ulogin import settings as s
 from django_ulogin.utils import import_by_path
-import uuid
+from django_ulogin.compat import reverse
 
 
 AUTH_USER_MODEL = (
@@ -43,9 +42,8 @@ class ULoginUser(models.Model):
     def __str__(self):
         return six.text_type(self.user)
 
-    @models.permalink
     def get_delete_url(self):
-        return 'ulogin_identities_delete', [self.pk]
+        return reverse('ulogin_identities_delete', args=[self.pk])
 
     class Meta(object):
         app_label = 'django_ulogin'
