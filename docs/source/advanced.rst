@@ -100,7 +100,7 @@
 
     def catch_ulogin_signal(*args, **kwargs):
         """
-        Обновляет модель пользователя: исправляет username, имя и фамилию на 
+        Обновляет модель пользователя: исправляет username, имя и фамилию на
         полученные от провайдера.
 
         В реальной жизни следует иметь в виду, что username должен быть уникальным,
@@ -149,7 +149,7 @@
 
     def my_user_create(request, ulogin_response):
         return MyUser.objects.create_user(
-            username='Vasya_' + uuid.uuid4().hex, 
+            username='Vasya_{0}'.format(uuid.uuid4()),
             birthday=datetime.date.today()
         )
 
