@@ -14,4 +14,3 @@ def user_is_authenticated(user):
         return user.is_authenticated
     else:
         return user.is_authenticated()
-
