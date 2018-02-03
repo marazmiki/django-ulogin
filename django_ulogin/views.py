@@ -1,7 +1,6 @@
 # coding: utf-8
 
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import redirect, render
@@ -15,6 +14,11 @@ from django_ulogin.models import ULoginUser, create_user
 from django_ulogin.signals import assign
 from django_ulogin.forms import PostBackForm
 from django_ulogin.utils import import_by_path
+from django_ulogin.compat import user_is_authenticated
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 import requests
 import json
 import logging
@@ -136,7 +140,7 @@ class PostBackView(CsrfExemptMixin, FormView):
             return render(self.request, self.error_template_name,
                           {'json': response})
 
-        if get_user(self.request).is_authenticated():
+        if user_is_authenticated(get_user(self.request)):
             user, identity, registered = \
                 self.handle_authenticated_user(response)
         else:

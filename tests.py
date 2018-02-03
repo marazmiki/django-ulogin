@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from django.conf import settings
+from django import VERSION as DJANGO_VERSION
 import sys
 import os
 
@@ -17,33 +18,45 @@ class DisableMigrations:
         return True
 
     def __getitem__(self, item):
-        return 'no_migrations_here'
+        return 'no_migrations_here' if DJANGO_VERSION < (1, 11) else None
 
 
-settings.configure(
-    DEBUG=False,
-    ROOT_URLCONF='django_ulogin.tests.urls',
-    MIGRATION_MODULES=DisableMigrations(),
-    MIDDLEWARE_CLASSES=(
+TESTS_SETTINGS = {
+    'DEBUG': False,
+    'ROOT_URLCONF': 'django_ulogin.tests.urls',
+    'MIGRATION_MODULES': DisableMigrations(),
+    'MIDDLEWARE_CLASSES': (
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
     ),
-    INSTALLED_APPS=(
+    'INSTALLED_APPS': (
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django_ulogin',
     ),
-    PASSWORD_HASHERS=[
+    'PASSWORD_HASHERS': [
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ],
-    DATABASES={
+    'DATABASES': {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':MEMORY:'
+            'NAME': ':memory:'
         }
-    })
+    },
+    'TEMPLATES': [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': True,
+        },
+    ]
+}
+
+if DJANGO_VERSION >= (1, 10):
+    TESTS_SETTINGS['MIDDLEWARE'] = TESTS_SETTINGS.pop('MIDDLEWARE_CLASSES')
+
+settings.configure(**TESTS_SETTINGS)
 
 
 def main():

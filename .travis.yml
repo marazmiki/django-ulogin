@@ -1,10 +1,13 @@
 language: python
 
 python:
+  - "2.7"
+  - "3.4"
   - "3.5"
+  - "3.6"
 
 install:
-  - pip install -q tox flake8 coveralls
+  - pip install -q tox tox-travis flake8 coveralls
 
 
 before_script:
