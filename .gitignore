@@ -1,3 +1,5 @@
+.idea/
+.pytest_cache/
 .tox/
 .env/
 .eggs/
