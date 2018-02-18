@@ -7,14 +7,13 @@ python:
   - "3.6"
 
 install:
-  - pip install -q tox tox-travis flake8 coveralls
-
+  - pip install tox-travis flake8 coveralls
 
 before_script:
   - make flake8
 
-after_success:
-  - make coveralls
-
 script:
   - tox
+
+after_success:
+  - coveralls

@@ -11,12 +11,12 @@ release:
 
 
 flake8:
-	flake8 ${project_name} setup.py tests.py
+	flake8 .
 
 
 coverage:
 	python setup.py develop
-	coverage run --rcfile=.coveragerc --include=${project_name}/* setup.py test
+	coverage run --include=${project_name}/* setup.py test
 	coverage report
 	rm -rf htmlcov
 	coverage html
@@ -29,8 +29,5 @@ clean:
 	rm -f .coverage
 	find ${project_name} -name "*.pyc" -exec rm -rf {} \;
 
-
-coveralls:
-	coveralls
 
 
