@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django.conf import settings
-from django import VERSION as DJANGO_VERSION
-import sys
 import os
+import sys
 
+from django import VERSION as DJANGO_VERSION
+from django.conf import settings
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 

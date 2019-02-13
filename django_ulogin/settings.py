@@ -2,8 +2,8 @@
 
 from django.conf import settings as s
 from django.utils.translation import ugettext_lazy as _
-from django_ulogin.exceptions import SchemeNotFound
 
+from django_ulogin.exceptions import SchemeNotFound
 
 ALLOWED_PROVIDERS = (
     ('vkontakte', _('V Kontakte')),
@@ -27,7 +27,9 @@ ALLOWED_PROVIDERS = (
     ('foursquare', _('Foursquare')),
     ('googleplus', _('Google+')),
     ('tumblr', _('Tumblr')),
-    ('dudu', _('Dudu')),
+    ('wargaming', _('Wargaming.net')),
+    ('instagram', _('Instagram')),
+    ('uid', _('uID')),
 )
 
 
@@ -79,6 +81,9 @@ DISPLAY = getattr(s, 'ULOGIN_DISPLAY', 'small')
 PROVIDERS = getattr(s, 'ULOGIN_PROVIDERS', ['vkontakte', 'facebook',
                                             'twitter', 'google',
                                             'livejournal'])
+
+# uLogin theme
+THEME = getattr(s, 'ULOGIN_THEME', 'classic')
 
 # Providers in dropdown list
 HIDDEN = getattr(s, 'ULOGIN_HIDDEN', ['yandex', 'odnoklassniki', 'mailru',

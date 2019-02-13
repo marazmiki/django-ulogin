@@ -2,7 +2,9 @@
 
 from django import test
 from django.contrib.auth.models import User
+
 from django_ulogin.models import ULoginUser
+
 try:
     from django.core.urlresolvers import reverse
 except ImportError:

@@ -6,211 +6,222 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 02:14-0500\n"
+"POT-Creation-Date: 2019-02-13 02:16-0600\n"
 "PO-Revision-Date: 2013-07-16 23:10-0500\n"
 "Last-Translator: Mikhail Porokhovnichenko <marazmiki@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: models.py:47
+#: django_ulogin/models.py:27
 msgid "user"
 msgstr "пользователь"
 
-#: models.py:48
+#: django_ulogin/models.py:29
 msgid "network"
 msgstr "сеть"
 
-#: models.py:52
+#: django_ulogin/models.py:33
 msgid "identity"
 msgstr "личность"
 
-#: models.py:55
+#: django_ulogin/models.py:36
 msgid "uid"
 msgstr "идентификатор"
 
-#: models.py:58
+#: django_ulogin/models.py:39
 msgid "date created"
 msgstr "создание"
 
-#: models.py:70
+#: django_ulogin/models.py:51
 msgid "ulogin user"
 msgstr "пользователь ulogin"
 
-#: models.py:71
+#: django_ulogin/models.py:52
 msgid "ulogin users"
 msgstr "пользователи ulogin"
 
-#: settings.py:10
+#: django_ulogin/settings.py:9
 msgid "V Kontakte"
 msgstr "В Контакте"
 
-#: settings.py:11
+#: django_ulogin/settings.py:10
 msgid "Odnoklassniki"
 msgstr "Одноклассники"
 
-#: settings.py:12
+#: django_ulogin/settings.py:11
 msgid "Mail.Ru"
 msgstr "Mail.Ru"
 
-#: settings.py:13
+#: django_ulogin/settings.py:12
 msgid "Yandex"
 msgstr "Яндекс"
 
-#: settings.py:14
+#: django_ulogin/settings.py:13
 msgid "Last.FM"
 msgstr "Last.FM"
 
-#: settings.py:15
+#: django_ulogin/settings.py:14
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: settings.py:16
+#: django_ulogin/settings.py:15
 msgid "Google"
 msgstr "Google"
 
-#: settings.py:17
+#: django_ulogin/settings.py:16
 msgid "SoundCloud"
 msgstr "SoundCloud"
 
-#: settings.py:18
+#: django_ulogin/settings.py:17
 msgid "Steam"
 msgstr "Steam"
 
-#: settings.py:19
+#: django_ulogin/settings.py:18
 msgid "Windows Live ID"
 msgstr "Windows Live ID"
 
-#: settings.py:20
+#: django_ulogin/settings.py:19
 msgid "Vimeo"
 msgstr "Vimeo"
 
-#: settings.py:21
+#: django_ulogin/settings.py:20
 msgid "OpenID"
 msgstr "OpenID"
 
-#: settings.py:22
+#: django_ulogin/settings.py:21
 msgid "WebMoney"
 msgstr "WebMoney"
 
-#: settings.py:23
+#: django_ulogin/settings.py:22
 msgid "Flickr"
 msgstr "Flickr"
 
-#: settings.py:24
+#: django_ulogin/settings.py:23
 msgid "YouTube"
 msgstr "YouTube"
 
-#: settings.py:25
+#: django_ulogin/settings.py:24
 msgid "LiveJournal"
 msgstr "LiveJournal"
 
-#: settings.py:26
+#: django_ulogin/settings.py:25
 msgid "Twitter"
 msgstr "Твиттер"
 
-#: settings.py:27
+#: django_ulogin/settings.py:26
 msgid "Facebook"
 msgstr "Facebook"
 
-#: settings.py:28
+#: django_ulogin/settings.py:27
 msgid "Foursquare"
 msgstr "Foursquare"
 
-#: settings.py:29
+#: django_ulogin/settings.py:28
 msgid "Google+"
 msgstr "Google Plus"
 
-#: settings.py:30
+#: django_ulogin/settings.py:29
 msgid "Tumblr"
 msgstr "Tumblr"
 
-#: settings.py:31
-msgid "Dudu"
-msgstr "Dudu"
+#: django_ulogin/settings.py:30
+msgid "Wargaming.net"
+msgstr ""
 
-#: settings.py:36
+#: django_ulogin/settings.py:31
+msgid "Instagram"
+msgstr ""
+
+#: django_ulogin/settings.py:32
+msgid "uID"
+msgstr ""
+
+#: django_ulogin/settings.py:37
 msgid "First name"
 msgstr "Имя"
 
-#: settings.py:37
+#: django_ulogin/settings.py:38
 msgid "Last name"
 msgstr "Фамилия"
 
-#: settings.py:38
+#: django_ulogin/settings.py:39
 msgid "E-mail"
 msgstr "E-mail"
 
-#: settings.py:39
+#: django_ulogin/settings.py:40
 msgid "Nickname"
 msgstr "Псевдоним"
 
-#: settings.py:40
+#: django_ulogin/settings.py:41
 msgid "Birthday"
 msgstr "Дата рождения"
 
-#: settings.py:41
+#: django_ulogin/settings.py:42
 msgid "Sex"
 msgstr "Пол"
 
-#: settings.py:42
+#: django_ulogin/settings.py:43
 msgid "Photo"
 msgstr "Фото"
 
-#: settings.py:43
+#: django_ulogin/settings.py:44
 msgid "Big photo"
 msgstr "Большое фото"
 
-#: settings.py:44
+#: django_ulogin/settings.py:45
 msgid "City"
 msgstr "Город"
 
-#: settings.py:45
+#: django_ulogin/settings.py:46
 msgid "Country"
 msgstr "Страна"
 
-#: settings.py:46
+#: django_ulogin/settings.py:47
 msgid "Phone"
 msgstr "Телефон"
 
-#: settings.py:51
+#: django_ulogin/settings.py:52
 msgid "female"
 msgstr "женский"
 
-#: settings.py:52
+#: django_ulogin/settings.py:53
 msgid "male"
 msgstr "мужской"
 
-#: templates/django_ulogin/confirm_delete.html:2
+#: django_ulogin/templates/django_ulogin/confirm_delete.html:2
 #, python-format
 msgid "Are you really want to delete %(identity)s?"
 msgstr "Вы действительно хотите удалить %(identity)s?"
 
-#: templates/django_ulogin/confirm_delete.html:6
+#: django_ulogin/templates/django_ulogin/confirm_delete.html:6
 msgid "I confirm"
 msgstr "Подтверждаю"
 
-#: templates/django_ulogin/identities.html:10
+#: django_ulogin/templates/django_ulogin/identities.html:10
 msgid "Identity"
 msgstr "Профиль"
 
-#: templates/django_ulogin/identities.html:11
+#: django_ulogin/templates/django_ulogin/identities.html:11
 msgid "Network"
 msgstr "Cеть"
 
-#: templates/django_ulogin/identities.html:12
+#: django_ulogin/templates/django_ulogin/identities.html:12
 #, fuzzy
 msgid "Control"
 msgstr "Управление"
 
-#: templates/django_ulogin/identities.html:21
+#: django_ulogin/templates/django_ulogin/identities.html:21
 msgid "Revoke"
 msgstr "Отозвать"
 
-#: templates/django_ulogin/ulogin_widget.html:12
+#: django_ulogin/templates/django_ulogin/ulogin_widget.html:12
 msgid "Multipass"
 msgstr "Мультивход"
+
+#~ msgid "Dudu"
+#~ msgstr "Dudu"

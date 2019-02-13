@@ -1,28 +1,31 @@
 # coding: utf-8
 
+import json
+import logging
+import sys
+
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
-from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView, DeleteView
-from django.utils.decorators import method_decorator
+from django.views.generic.edit import DeleteView, FormView
+
+import requests
 from django_ulogin import settings
+from django_ulogin.compat import user_is_authenticated
+from django_ulogin.forms import PostBackForm
 from django_ulogin.models import ULoginUser, create_user
 from django_ulogin.signals import assign
-from django_ulogin.forms import PostBackForm
 from django_ulogin.utils import import_by_path
-from django_ulogin.compat import user_is_authenticated
+
 try:
     from django.core.urlresolvers import reverse
 except ImportError:
     from django.urls import reverse
-import requests
-import json
-import logging
-import sys
 
 
 logger = logging.getLogger('django_ulogin.views')

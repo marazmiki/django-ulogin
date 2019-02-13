@@ -1,13 +1,14 @@
 # coding: utf-8
 
-from django.db import models
-from django.core.files.base import ContentFile
-from django_ulogin.models import ULoginUser
-from django_ulogin.signals import assign
 import datetime
 import os
-import requests
 
+from django.core.files.base import ContentFile
+from django.db import models
+
+import requests
+from django_ulogin.models import ULoginUser
+from django_ulogin.signals import assign
 
 ULOGIN_FIELDS = ['first_name', 'last_name', 'sex', 'email']                                                                                                            
 ULOGIN_OPTIONAL = ['photo', 'photo_big', 'city', 'country', 'bdate']       
@@ -88,4 +89,3 @@ def catch_ulogin_signal(*args, **kwargs):
 
 
 assign.connect(catch_ulogin_signal, sender=ULoginUser, dispatch_uid='customize.models')
-

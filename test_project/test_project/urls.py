@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from django.conf.urls import include, url
 from django.conf import settings
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.shortcuts import render
 
@@ -19,4 +19,3 @@ urlpatterns = [
     url(r'^logout/',  'django.contrib.auth.views.logout', name='logout'),
     url(r'^media/(?P<path>.*)', 'django.views.static.serve', kwargs={'document_root': settings.MEDIA_ROOT}),
 ]
-

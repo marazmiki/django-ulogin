@@ -1,7 +1,8 @@
 # coding: utf-8
 
 from django import test
-from django.template import Template, Context
+from django.template import Context, Template
+
 from django_ulogin import settings
 
 

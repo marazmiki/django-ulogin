@@ -1,17 +1,20 @@
 # coding: utf-8
 
+import random
+import string
+import urllib
+
 from django import template
 from django.contrib.auth import REDIRECT_FIELD_NAME as FLD
+from django.utils.http import urlquote
+
 from django_ulogin import settings as s
 from django_ulogin.exceptions import SchemeNotFound
-from django.utils.http import urlquote
+
 try:
     from django.core.urlresolvers import reverse as r
 except ImportError:
     from django.urls import reverse as r
-import urllib
-import string
-import random
 
 
 try:
@@ -64,6 +67,7 @@ def ulogin_widget(context, name="default"):
         'WIDGET_URL': s.WIDGET_URL,
         'CALLBACK': scheme.get('CALLBACK', s.CALLBACK),
         'DISPLAY': scheme.get('DISPLAY', s.DISPLAY),
+        'THEME': s.THEME,
         'PROVIDERS': glue('PROVIDERS'),
         'HIDDEN': glue('HIDDEN'),
         'FIELDS': glue('FIELDS'),

@@ -1,16 +1,17 @@
 import uuid
-from django.db import models
-from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext_lazy as _
-from django.utils.crypto import get_random_string
-from django.utils import six
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ImproperlyConfigured
+from django.db import models
+from django.utils import six
+from django.utils.crypto import get_random_string
 from django.utils.timezone import now
-from django_ulogin import settings as s
-from django_ulogin.utils import import_by_path
-from django_ulogin.compat import reverse
+from django.utils.translation import ugettext_lazy as _
 
+from django_ulogin import settings as s
+from django_ulogin.compat import reverse
+from django_ulogin.utils import import_by_path
 
 AUTH_USER_MODEL = (
     getattr(settings, 'ULOGIN_USER_MODEL', None) or
