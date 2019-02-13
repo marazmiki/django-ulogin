@@ -6,9 +6,9 @@ test:
 
 
 release:
-	python setup.py sdist --format=zip,bztar,gztar register upload
-	python setup.py bdist_wheel register upload
-
+	./setup.py sdist bdist_wheel
+	twine check dist/*
+	twine upload dist/*
 
 flake8:
 	flake8 .
