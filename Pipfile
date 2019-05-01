@@ -5,3 +5,4 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 bumpversion = "*"
+twine = "*"

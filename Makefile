@@ -1,28 +1,16 @@
 project_name=django_ulogin
 
-
+.PHONY: test
 test:
 	python setup.py test
 
-
+.PHONY: release
 release:
 	./setup.py sdist bdist_wheel
 	twine check dist/*
 	twine upload dist/*
 
-flake8:
-	flake8 .
-
-
-coverage:
-	python setup.py develop
-	coverage run --include=${project_name}/* setup.py test
-	coverage report
-	rm -rf htmlcov
-	coverage html
-	python setup.py develop --uninstall
-
-
+.PHONY: clean
 clean:
 	python setup.py develop --uninstall
 	rm -rf *.egg-info *.egg
