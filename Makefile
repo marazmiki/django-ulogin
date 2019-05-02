@@ -4,6 +4,10 @@ project_name=django_ulogin
 test:
 	python setup.py test
 
+.PHONY: flake8
+flake8:
+	flake8 .
+
 .PHONY: release
 release:
 	./setup.py sdist bdist_wheel

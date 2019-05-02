@@ -44,7 +44,7 @@ install:
   - pip install tox-travis flake8 coveralls
 
 before_script:
-  - make flake8
+  - flake8 .
 
 script:
   - tox
