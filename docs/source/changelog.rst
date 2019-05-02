@@ -4,6 +4,14 @@
 1.x
 ---
 
+1.0.2
+~~~~~
+
+`Технический релиз, ничего заметного для пользователей тут нет` 
+
+* Добавлены новыве бейджи
+* Исправлена интеграция с `Travis CI <https://travis-ci.org/marazmiki/django-ulogin>`_ и `Read The Docs <https://django-ulogin.readthedocs.io/ru/latest/>`_
+
 1.0.1
 ~~~~~
 
