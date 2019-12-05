@@ -1,4 +1,5 @@
 .idea/
+.vscode/
 .pytest_cache/
 .tox/
 .env/
@@ -14,6 +15,5 @@ docs/build/
 build/
 dist/
 htmlcov/
-
 *.egg-info/
 *.egg/
