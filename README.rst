@@ -14,16 +14,16 @@ django-ulogin
      :target: http://badge.fury.io/py/django-ulogin
      :alt: PyPI release
 
-.. image:: https://pypip.in/wheel/django-generic-helpers/badge.svg
-     :target: https://pypi.python.org/pypi/django-generic-helpers/
+.. image:: https://pypip.in/wheel/django-ulogin/badge.svg
+     :target: https://pypi.python.org/pypi/django-ulogin/
      :alt: Wheel Status
 
 .. image:: https://img.shields.io/pypi/pyversions/django-ulogin.svg
      :target: https://img.shields.io/pypi/pyversions/django-ulogin.svg
      :alt: Supported Python versions
 
-.. image:: https://img.shields.io/pypi/djversions/django-generic-helpers.svg
-     :target: https://pypi.python.org/pypi/django-generic-helpers/
+.. image:: https://img.shields.io/pypi/djversions/django-ulogin.svg
+     :target: https://pypi.python.org/pypi/django-ulogin/
      :alt: Supported Django versions
 
 .. image:: https://readthedocs.org/projects/django-ulogin/badge/?version=latest
