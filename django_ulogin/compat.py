@@ -8,7 +8,7 @@ __all__ = [
 
 
 py2_unicode_compatible = lambda f: f    # NOQA
-text_type = lambda s: s                 # NOQA
+text_type = lambda s: str(s)            # NOQA
 
 
 try:

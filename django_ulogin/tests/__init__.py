@@ -267,3 +267,4 @@ from django_ulogin.tests.identities import (LoginRequiredTest,   # NOQA
                                             TestIdentityList,    # NOQA
                                             TestIdentifyDelete)  # NOQA
 from django_ulogin.tests.templatetags import ULoginMediaTest  # NOQA
+from django_ulogin.tests.compat import TextTypeTest  # NOQA
