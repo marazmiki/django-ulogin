@@ -4,6 +4,14 @@
 1.x
 ---
 
+1.1.0
+~~~~~
+
+* Избавление от legacy: удалена поддержка ``Django<2.1``;
+* Минимально поддерживаемая версия ``Python``: ``3.5``;
+* Автоматическая публикация пакета на `PyPI <https://pypi.org/project/django-ulogin>`_ с помощью Github Actions;
+* Использование `Poetry <https://python-poetry.org/>`_ вместо `pipenv <https://pipenv.pypa.io/en/latest/>`_
+
 1.0.7
 ~~~~~
 
@@ -20,8 +28,7 @@
 * Security-обновление: внешняя зависимость ``bleach`` обновлена до безопасной версии ``3.1.2``
 
 1.0.4
-~~~~~
-
+~~~~
 * Исправлена ошибка `#43 <https://github.com/marazmiki/django-ulogin/issues/43>`_: ``ULoginUser.__str__()`` в некоторых случаях возвращал не строку, что приводило к ошибкам при удалении моделей в админке. Спасибо `@shot131 <https://github.com/shot131>`_ за репорт.
 * Security-обновление внешней зависимости ``bleach``
 
