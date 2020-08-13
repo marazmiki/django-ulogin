@@ -4,13 +4,14 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
+from django.urls import reverse
 from django.utils.crypto import get_random_string
+from django.utils.module_loading import import_string
 from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from django_ulogin import settings as s
-from django_ulogin.compat import py2_unicode_compatible, reverse, text_type
-from django_ulogin.utils import import_by_path
+
 
 AUTH_USER_MODEL = (
     getattr(settings, 'ULOGIN_USER_MODEL', None) or
@@ -19,7 +20,6 @@ AUTH_USER_MODEL = (
 )
 
 
-@py2_unicode_compatible
 class ULoginUser(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL,
                              related_name='ulogin_users',
@@ -40,12 +40,12 @@ class ULoginUser(models.Model):
                                         default=now)
 
     def __str__(self):
-        return text_type(self.user)
+        return str(self.user)
 
     def get_delete_url(self):
         return reverse('ulogin_identities_delete', args=[self.pk])
 
-    class Meta(object):
+    class Meta:
         app_label = 'django_ulogin'
         verbose_name = _('ulogin user')
         verbose_name_plural = _('ulogin users')
@@ -72,7 +72,7 @@ def create_user(request, ulogin_response):
     """
     # Custom behaviour
     if s.CREATE_USER_CALLBACK is not None:
-        callback = import_by_path(s.CREATE_USER_CALLBACK)
+        callback = import_string(s.CREATE_USER_CALLBACK)
 
         if callable(callback):
             return callback(request=request,

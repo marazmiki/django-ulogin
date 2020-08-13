@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from django.conf import settings as s
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from django_ulogin.exceptions import SchemeNotFound
 
@@ -55,7 +55,7 @@ SEX_CHOICES = (
 
 
 # URL of widget
-WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', '//ulogin.ru/js/ulogin.js')
+WIDGET_URL = getattr(s, 'ULOGIN_WIDGET_URL', 'https://ulogin.ru/js/ulogin.js')
 
 # URL to get token
 TOKEN_URL = getattr(s, 'ULOGIN_TOKEN_URL', 'https://ulogin.ru/token.php')
@@ -79,8 +79,7 @@ DISPLAY = getattr(s, 'ULOGIN_DISPLAY', 'small')
 
 # Featured providers
 PROVIDERS = getattr(s, 'ULOGIN_PROVIDERS', ['vkontakte', 'facebook',
-                                            'twitter', 'google',
-                                            'livejournal'])
+                                            'twitter', 'google'])
 
 # uLogin theme
 THEME = getattr(s, 'ULOGIN_THEME', 'classic')

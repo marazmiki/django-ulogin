@@ -1,14 +1,12 @@
-# coding: utf-8
-
 import json
 import logging
-import sys
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
+from django.utils.module_loading import import_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
@@ -16,16 +14,11 @@ from django.views.generic.edit import DeleteView, FormView
 
 import requests
 from django_ulogin import settings
-from django_ulogin.compat import user_is_authenticated
 from django_ulogin.forms import PostBackForm
 from django_ulogin.models import ULoginUser, create_user
 from django_ulogin.signals import assign
-from django_ulogin.utils import import_by_path
 
-try:
-    from django.core.urlresolvers import reverse
-except ImportError:
-    from django.urls import reverse
+from django.urls import reverse
 
 
 logger = logging.getLogger('django_ulogin.views')
@@ -36,29 +29,27 @@ def get_user(request):
 
 
 if settings.LOGIN_CALLBACK:
-    login = import_by_path(settings.LOGIN_CALLBACK)
+    login = import_string(settings.LOGIN_CALLBACK)
 else:
     from django.contrib.auth import login
 
 
-class CsrfExemptMixin(object):
+class CsrfExemptMixin:
     """
     A mixin that provides a way to exempt view class out of CSRF validation
     """
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(CsrfExemptMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
-class LoginRequiredMixin(object):
+class LoginRequiredMixin:
     """
     A mixin that provides a way to restrict anonymous access
     """
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request,
-                                                        *args,
-                                                        **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ULoginMixin(LoginRequiredMixin):
@@ -97,10 +88,8 @@ class PostBackView(CsrfExemptMixin, FormView):
             logger.debug('uLogin user already exists')
 
             if current_user != ulogin_user:
-                logger.debug(
-                    "Mismatch: %s is not a %s. Take over it!" % (current_user,
-                                                                 ulogin_user)
-                )
+                logger.debug("Mismatch: %s is not a %s. Take over it!",
+                             current_user,  ulogin_user)
                 ulogin.user = current_user
                 ulogin.save()
 
@@ -143,7 +132,8 @@ class PostBackView(CsrfExemptMixin, FormView):
             return render(self.request, self.error_template_name,
                           {'json': response})
 
-        if user_is_authenticated(get_user(self.request)):
+        user = get_user(self.request)
+        if user.is_authenticated:
             user, identity, registered = \
                 self.handle_authenticated_user(response)
         else:
@@ -174,11 +164,7 @@ class PostBackView(CsrfExemptMixin, FormView):
                 'token': token,
                 'host': host
             })
-        content = response.content
-
-        if sys.version_info >= (3, 0):
-            content = content.decode('utf8')
-
+        content = response.content.decode('utf8')
         return json.loads(content)
 
 

@@ -1,8 +1,6 @@
-# coding: utf-8
-
-from django.conf.urls import include, url
 from django.http import HttpResponse
 from django.template import Context, Template
+from django.urls import include, path
 
 
 def index(request):
@@ -12,6 +10,6 @@ def index(request):
 
 
 urlpatterns = [
-    url('^django_ulogin/', include('django_ulogin.urls')),
-    url('^$', index)
+    path('django_ulogin/', include('django_ulogin.urls')),
+    path('', index)
 ]
