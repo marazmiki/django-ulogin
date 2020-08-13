@@ -1,7 +1,8 @@
 [tool.poetry]
 name = "django-ulogin"
-version = "1.1.0"
+version = "1.1.1"
 description = "User social authentication with ulogin.ru service"
+readme = "README.rst"
 authors = ["Mikhail Porokhovnichenko <marazmiki@gmail.com>"]
 license = "MIT"
 
