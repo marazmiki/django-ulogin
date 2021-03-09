@@ -74,7 +74,8 @@ def ulogin_widget(context, name="default"):
         'OPTIONAL': glue('OPTIONAL'),
         'REDIRECT_URL': get_redirect_url(context['request']),
         'RAND': rand,
-        'LOAD_SCRIPT_AT_ONCE': s.LOAD_SCRIPT_AT_ONCE
+        'LOAD_SCRIPT_AT_ONCE': s.LOAD_SCRIPT_AT_ONCE,
+        'MOBILE_BUTTONS': s.MOBILE_BUTTONS,
     }
 
 
