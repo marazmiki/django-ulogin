@@ -91,6 +91,9 @@ HIDDEN = getattr(s, 'ULOGIN_HIDDEN', ['yandex', 'odnoklassniki', 'mailru',
 # Callback function
 CALLBACK = getattr(s, 'ULOGIN_CALLBACK', None)
 
+# Mobile view widget
+MOBILE_BUTTONS = getattr(s, 'ULOGIN_MOBILE_BUTTONS', True)
+
 DEFAULT_SCHEME = {
     'FIELDS': FIELDS,
     'OPTIONAL': OPTIONAL,
