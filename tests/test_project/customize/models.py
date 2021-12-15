@@ -7,11 +7,11 @@ from django.core.files.base import ContentFile
 from django.db import models
 
 import requests
-from django_ulogin.models import ULoginUser
-from django_ulogin.signals import assign
+from django_ulogin import ULoginUser
+from django_ulogin import assign
 
-ULOGIN_FIELDS = ['first_name', 'last_name', 'sex', 'email']                                                                                                            
-ULOGIN_OPTIONAL = ['photo', 'photo_big', 'city', 'country', 'bdate']       
+ULOGIN_FIELDS = ['first_name', 'last_name', 'sex', 'email']
+ULOGIN_OPTIONAL = ['photo', 'photo_big', 'city', 'country', 'bdate']
 
 
 class UserInfo(models.Model):
@@ -33,19 +33,19 @@ class UserInfo(models.Model):
                                                       file=os.path.basename(filename))
 
     ulogin = models.ForeignKey(ULoginUser)
-    sex = models.IntegerField(blank=True, 
-                              null=True, 
+    sex = models.IntegerField(blank=True,
+                              null=True,
                               choices = (
                                   (SEX_MALE, 'male'),
                                   (SEX_FEMALE, 'female'),
                               ))
-    photo = models.ImageField(null=True, 
-                              blank=True, 
+    photo = models.ImageField(null=True,
+                              blank=True,
                               upload_to=upload_photo)
-    photo_big = models.ImageField(null=True, 
-                                  blank=True, 
+    photo_big = models.ImageField(null=True,
+                                  blank=True,
                                   upload_to=upload_photo_big)
-    city = models.CharField(blank=True,  
+    city = models.CharField(blank=True,
                             default='',
                             max_length=255)
     country = models.CharField(blank=True,
@@ -77,14 +77,14 @@ def catch_ulogin_signal(*args, **kwargs):
         if 'bdate' in json and json['bdate']:
             d, m, y = json['bdate'].split('.')
             data['bdate'] = datetime.datetime(int(y), int(m), int(d))
-        
+
         userinfo = UserInfo.objects.create(**data)
 
         for fld in ['photo', 'photo_big']:
             if fld not in json:
                 continue
-            getattr(userinfo, fld).save(os.path.basename(json[fld]),                                                                                                        
-                                        ContentFile(requests.get(json[fld]).raw.read()))  
+            getattr(userinfo, fld).save(os.path.basename(json[fld]),
+                                        ContentFile(requests.get(json[fld]).raw.read()))
             userinfo.save()
 
 

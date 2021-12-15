@@ -1,0 +1,11 @@
+[run]
+omit =
+	.tox/*
+	.eggs/*
+	dist/*
+
+[report]
+omit =
+	.tox/*
+	.eggs/*
+	dist/*
